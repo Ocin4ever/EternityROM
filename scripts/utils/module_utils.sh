@@ -143,9 +143,9 @@ _GET_SELINUX_LABEL()
 # `user`/`group`/`mode`/`label`/ arguments can be omitted as long as the respective entry is present in `source`/fs_config and `source`/file_context.
 ADD_TO_WORK_DIR()
 {
-    _CHECK_NON_EMPTY_PARAM "SOURCE" "$1"
-    _CHECK_NON_EMPTY_PARAM "PARTITION" "$2"
-    _CHECK_NON_EMPTY_PARAM "FILE" "$3"
+    _CHECK_NON_EMPTY_PARAM "SOURCE" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "FILE" "$3" || return 1
 
     local SOURCE="$1"
     local PARTITION="$2"
@@ -349,15 +349,15 @@ ADD_TO_WORK_DIR()
     return 0
 }
 
-# DECODE_APK <apk/jar>
-# Same usage as `run_cmd apktool d <apk/jar>`.
-# APK/JAR path MUST not be full and match an existing file inside work_dir.
+# DECODE_APK <partition> <apk/jar>
+# Same usage as `run_cmd apktool d <partition> <apk/jar>`.
 DECODE_APK()
 {
-    _CHECK_NON_EMPTY_PARAM "FILE" "$1"
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "FILE" "$2" || return 1
 
-    if [ ! -d "$APKTOOL_DIR/$1" ]; then
-        "$SRC_DIR/scripts/apktool.sh" d "$1"
+    if [ ! -d "$APKTOOL_DIR/$1/${2//system\/}" ]; then
+        "$SRC_DIR/scripts/apktool.sh" d "$1" "$2"
         return $?
     fi
 
@@ -368,8 +368,8 @@ DECODE_APK()
 # Downloads the file from the provided URL and stores it in the desidered output path.
 DOWNLOAD_FILE()
 {
-    _CHECK_NON_EMPTY_PARAM "URL" "$1"
-    _CHECK_NON_EMPTY_PARAM "OUTPUT" "$2"
+    _CHECK_NON_EMPTY_PARAM "URL" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "OUTPUT" "$2" || return 1
 
     local URL="$1"
     local OUTPUT="$2"
@@ -383,7 +383,7 @@ DOWNLOAD_FILE()
 # Returns a URL to download the desidered app from Samsung servers.
 GET_GALAXY_STORE_DOWNLOAD_URL()
 {
-    _CHECK_NON_EMPTY_PARAM "PACKAGE" "$1"
+    _CHECK_NON_EMPTY_PARAM "PACKAGE" "$1" || return 1
 
     local PACKAGE="$1"
     local DEVICES
@@ -416,7 +416,7 @@ GET_GALAXY_STORE_DOWNLOAD_URL()
 # Returns the supplied config value.
 GET_FLOATING_FEATURE_CONFIG()
 {
-    _CHECK_NON_EMPTY_PARAM "CONFIG" "$1"
+    _CHECK_NON_EMPTY_PARAM "CONFIG" "$1" || return 1
 
     local CONFIG="$1"
     local FILE="$WORK_DIR/system/system/etc/floating_feature.xml"
@@ -444,7 +444,7 @@ GET_PROP()
         fi
     fi
 
-    _CHECK_NON_EMPTY_PARAM "PROP" "$1"
+    _CHECK_NON_EMPTY_PARAM "PROP" "$1" || return 1
 
     local PROP="$1"
     # shellcheck disable=SC2002,SC2046,SC2116
@@ -455,9 +455,9 @@ GET_PROP()
 # Applies the supplied hex patch to the desidered file.
 HEX_PATCH()
 {
-    _CHECK_NON_EMPTY_PARAM "FILE" "$1"
-    _CHECK_NON_EMPTY_PARAM "FROM" "$2"
-    _CHECK_NON_EMPTY_PARAM "TO" "$3"
+    _CHECK_NON_EMPTY_PARAM "FILE" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "FROM" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "TO" "$3" || return 1
 
     local FILE="$1"
     local FROM="$2"
@@ -493,8 +493,8 @@ HEX_PATCH()
 # "-d" or "--delete" can be passed as value to delete the config.
 SET_FLOATING_FEATURE_CONFIG()
 {
-    _CHECK_NON_EMPTY_PARAM "CONFIG" "$1"
-    _CHECK_NON_EMPTY_PARAM "VALUE" "$2"
+    _CHECK_NON_EMPTY_PARAM "CONFIG" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "VALUE" "$2" || return 1
 
     local CONFIG="$1"
     local VALUE="$2"
@@ -530,12 +530,12 @@ SET_FLOATING_FEATURE_CONFIG()
 # Adds the supplied file/directory entry attrs in fs_config/file_context.
 SET_METADATA()
 {
-    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1"
-    _CHECK_NON_EMPTY_PARAM "ENTRY" "$2"
-    _CHECK_NON_EMPTY_PARAM "USER" "$3"
-    _CHECK_NON_EMPTY_PARAM "GROUP" "$4"
-    _CHECK_NON_EMPTY_PARAM "MODE" "$5"
-    _CHECK_NON_EMPTY_PARAM "LABEL" "$6"
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "ENTRY" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "USER" "$3" || return 1
+    _CHECK_NON_EMPTY_PARAM "GROUP" "$4" || return 1
+    _CHECK_NON_EMPTY_PARAM "MODE" "$5" || return 1
+    _CHECK_NON_EMPTY_PARAM "LABEL" "$6" || return 1
 
     local PARTITION="$1"
     local ENTRY="$2"
@@ -567,6 +567,8 @@ SET_METADATA()
     sed -i "/^\/$PATTERN /d" "$WORK_DIR/configs/file_context-$PARTITION"
 
     echo "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
+
+    return 0
 }
 
 # SET_PROP "<partition>" "<prop>" "<value>"
@@ -574,8 +576,8 @@ SET_METADATA()
 # "-d" or "--delete" can be passed as value to delete the prop.
 SET_PROP()
 {
-    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1"
-    _CHECK_NON_EMPTY_PARAM "PROP" "$2"
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "PROP" "$2" || return 1
 
     local PARTITION="$1"
     local PROP="$2"
@@ -667,9 +669,9 @@ SET_PROP()
 # Calls SET_PROP if the current prop value does not match, partition name CANNOT be omitted.
 SET_PROP_IF_DIFF()
 {
-    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1"
-    _CHECK_NON_EMPTY_PARAM "PROP" "$2"
-    _CHECK_NON_EMPTY_PARAM "EXPECTED" "$3"
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "PROP" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "EXPECTED" "$3" || return 1
 
     local PARTITION="$1"
     local PROP="$2"
