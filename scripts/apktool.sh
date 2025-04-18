@@ -35,7 +35,7 @@ BUILD()
         exit 1
     fi
 
-    echo "- Building ${INPUT_FILE//$WORK_DIR/}"
+    LOG "- Building ${INPUT_FILE//$WORK_DIR/}"
 
     # DEX format version might not be matching minSdkVersion, currently we handle
     # baksmali manually as apktool will by default use minSdkVersion when available
@@ -77,7 +77,7 @@ BUILD()
     local FILE_NAME
     FILE_NAME="$(basename "$INPUT_FILE")"
 
-    echo "- Zipaligning ${INPUT_FILE//$WORK_DIR/}"
+    LOG "- Zipaligning ${INPUT_FILE//$WORK_DIR/}"
     EVAL "zipalign -p 4 \"$OUTPUT_PATH/dist/$FILE_NAME\" \"$OUTPUT_PATH/dist/temp\"" || exit 1
     mv -f "$OUTPUT_PATH/dist/temp" "$OUTPUT_PATH/dist/$FILE_NAME"
 
@@ -115,7 +115,7 @@ DECODE()
         exit 1
     fi
 
-    echo "- Decoding ${INPUT_FILE//$WORK_DIR/}"
+    LOG "- Decoding ${INPUT_FILE//$WORK_DIR/}"
     EVAL "apktool d -o \"$OUTPUT_PATH\" -p \"$FRAMEWORK_DIR\" -s \"$INPUT_FILE\"" || exit 1
 
     # DEX format version might not be matching minSdkVersion, currently we handle
@@ -267,7 +267,7 @@ PREPARE_SCRIPT "$@"
 
 if [ ! -d "$FRAMEWORK_DIR" ]; then
     if [ -f "$WORK_DIR/system/system/framework/framework-res.apk" ]; then
-        echo "- Installing framework-res.apk"
+        LOG "- Installing framework-res.apk"
         EVAL "apktool if -p \"$FRAMEWORK_DIR\" \"$WORK_DIR/system/system/framework/framework-res.apk\"" || exit 1
     else
         LOGE "File not found: /system/system/framework/framework-res.apk, please set up your work_dir first."
