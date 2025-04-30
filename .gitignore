@@ -1,5 +1,8 @@
 out/
 
+# MacOS files
+*.DS_Store
+
 # Cert
 security/unica_ota.x509.pem
 security/unica_ota.pk8
