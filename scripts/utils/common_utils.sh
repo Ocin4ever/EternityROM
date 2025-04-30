@@ -183,7 +183,7 @@ ADD_TO_WORK_DIR()
 
     if [ ! -e "$SOURCE_FILE" ] && [ ! -L "$SOURCE_FILE" ]; then
         if [ -e "$SOURCE_FILE.00" ]; then
-            LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR\//}"
+            LOG "- Adding ${TARGET_FILE//$WORK_DIR/} from ${SOURCE//$SRC_DIR\//}"
             mkdir -p "$(dirname "$TARGET_FILE")"
             cat "$SOURCE_FILE."* > "$TARGET_FILE"
         else
@@ -191,7 +191,7 @@ ADD_TO_WORK_DIR()
             return 1
         fi
     else
-        LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR\//}"
+        LOG "- Adding ${TARGET_FILE//$WORK_DIR/} from ${SOURCE//$SRC_DIR\//}"
         if [ ! -d "$SOURCE_FILE" ]; then
             mkdir -p "$(dirname "$TARGET_FILE")"
         else
@@ -477,6 +477,53 @@ SET_METADATA()
     [ "$PARTITION" != "system" ] && [[ "$ENTRY" != "$PARTITION/"* ]] && ENTRY="$PARTITION/$ENTRY"
 
     LOG "- Adding metadata for /$ENTRY (uid:$USER gid:$GROUP mode:$MODE selabel:$LABEL)"
+
+    local PATTERN
+    PATTERN="${ENTRY//\//\\/}"
+    sed -i "/^$PATTERN /d" "$WORK_DIR/configs/fs_config-$PARTITION"
+
+    echo "$ENTRY $USER $GROUP $MODE capabilities=0x0" >> "$WORK_DIR/configs/fs_config-$PARTITION"
+
+    PATTERN="$(_HANDLE_SPECIAL_CHARS "$ENTRY")"
+    PATTERN="${PATTERN//\\/\\\\}"
+    PATTERN="${PATTERN//\//\\/}"
+    sed -i "/^\/$PATTERN /d" "$WORK_DIR/configs/file_context-$PARTITION"
+
+    echo "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
+
+    return 0
+}
+
+# SET_METADATA <partition> <file/dir> <user> <group> <mode> <label>
+# Adds the supplied file/directory entry attrs in fs_config/file_context.
+SET_METADATA()
+{
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "ENTRY" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "USER" "$3" || return 1
+    _CHECK_NON_EMPTY_PARAM "GROUP" "$4" || return 1
+    _CHECK_NON_EMPTY_PARAM "MODE" "$5" || return 1
+    _CHECK_NON_EMPTY_PARAM "LABEL" "$6" || return 1
+
+    local PARTITION="$1"
+    local ENTRY="$2"
+    local USER="$3"
+    local GROUP="$4"
+    local MODE="$5"
+    local LABEL="$6"
+
+    if ! IS_VALID_PARTITION_NAME "$PARTITION"; then
+        LOGE "\"$PARTITION\" is not a valid partition name"
+        return 1
+    fi
+
+    while [[ "${ENTRY:0:1}" == "/" ]]; do
+        ENTRY="${ENTRY:1}"
+    done
+
+    [ "$PARTITION" != "system" ] && [[ "$ENTRY" != "$PARTITION/"* ]] && ENTRY="$PARTITION/$ENTRY"
+
+    LOG "- Adding metadata for /$PARTITION/$ENTRY (uid:$USER gid:$GROUP mode:$MODE selabel:$LABEL)"
 
     local PATTERN
     PATTERN="${ENTRY//\//\\/}"
