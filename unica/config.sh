@@ -23,19 +23,19 @@ ROM_CODENAME="Nexus"
 # Source ROM firmware
 case "$TARGET_SINGLE_SYSTEM_IMAGE" in
     "essi")
-        # Galaxy S25 Ultra (One UI 7)
-        SOURCE_CODENAME="pa3q"
-        SOURCE_FIRMWARE="SM-S938B/EUX/356597450035295"
+        # Galaxy S24+ (One UI 7)
+        SOURCE_CODENAME="e2s"
+        SOURCE_FIRMWARE="SM-S926B/EUX/352737401234563"
         SOURCE_EXTRA_FIRMWARES=()
         SOURCE_API_LEVEL=35
-        SOURCE_PRODUCT_FIRST_API_LEVEL=35
-        SOURCE_VNDK_VERSION="none"
-        SOURCE_HAS_SYSTEM_EXT=true
-        SOURCE_SUPER_GROUP_NAME="qti_dynamic_partitions"
+        SOURCE_PRODUCT_FIRST_API_LEVEL=34
+        SOURCE_VNDK_VERSION="34"
+        SOURCE_HAS_SYSTEM_EXT=false
+        SOURCE_SUPER_GROUP_NAME="group_basic"
         # SEC Product Feature
         SOURCE_AUTO_BRIGHTNESS_TYPE="5"
         SOURCE_DVFS_CONFIG_NAME="dvfs_policy_default"
-        SOURCE_NFC_CHIP_VENDOR="NXP"
+        SOURCE_NFC_CHIP_VENDOR="SLSI"
         SOURCE_FP_SENSOR_CONFIG="google_touch_display_ultrasonic,wireless_charging_notifier"
         SOURCE_HAS_MASS_CAMERA_APP=false
         SOURCE_HAS_QHD_DISPLAY=true
@@ -46,7 +46,7 @@ case "$TARGET_SINGLE_SYSTEM_IMAGE" in
         SOURCE_IS_ESIM_SUPPORTED=true
         SOURCE_MDNIE_SUPPORTED_MODES="65303"
         SOURCE_SUPPORT_CUTOUT_PROTECTION=false
-        SOURCE_SUPPORT_WIFI_7=true
+        SOURCE_SUPPORT_WIFI_7=false
         SOURCE_SUPPORT_HOTSPOT_DUALAP=true
         SOURCE_SUPPORT_HOTSPOT_WPA3=true
         SOURCE_SUPPORT_HOTSPOT_6GHZ=true
