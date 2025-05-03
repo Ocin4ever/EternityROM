@@ -11,3 +11,4 @@ sed -i "/proc_compaction_proactiveness/d" "$WORK_DIR/system/system/system_ext/et
 sed -i "/qb_id_prop/d" "$WORK_DIR/system/system/system_ext/etc/selinux/mapping/31.0.cil"
 sed -i "/teeregistryd_app/d" "$WORK_DIR/system/system/system_ext/etc/selinux/mapping/31.0.cil"
 sed -i "/uwb_regulation_skip_prop/d" "$WORK_DIR/system/system/system_ext/etc/selinux/mapping/31.0.cil"
+sed -i "/sbauth/d" "$WORK_DIR/system/system/system_ext/etc/selinux/mapping/31.0.cil"
