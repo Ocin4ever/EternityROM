@@ -16,7 +16,7 @@
 #
 
 # UN1CA configuration file
-ROM_VERSION="5.0 beta IT'S NOT READY DON't BEG FOR IT"
+ROM_VERSION="5.0(beta)"
 ROM_VERSION+="-$(git rev-parse --short HEAD)"
 ROM_CODENAME="EternityROM"
 
