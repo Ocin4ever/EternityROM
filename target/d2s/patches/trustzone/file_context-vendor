@@ -6,7 +6,7 @@
 /vendor/lib/libteecl\.so u:object_r:same_process_hal_file:s0
 /vendor/lib/libuuid\.so u:object_r:vendor_file:s0
 /vendor/lib64 u:object_r:vendor_file:s0
+/vendor/lib64/libiwt\.so u:object_r:vendor_file:s0
 /vendor/lib64/libteecl\.so u:object_r:same_process_hal_file:s0
 /vendor/lib64/libuuid\.so u:object_r:vendor_file:s0
-/vendor/lib64/libiwt\.so u:object_r:vendor_file:s0
 /vendor/ueventd\.rc u:object_r:vendor_file:s0
