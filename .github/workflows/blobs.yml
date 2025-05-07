@@ -72,7 +72,9 @@ jobs:
           cache: 'gradle'
 
       - name: Build dependencies
-        run: source ./buildenv.sh d2s
+        run: |
+          source ./buildenv.sh d2s
+          ./scripts/build_dependencies.sh
 
       - name: Update prebuilt blobs
         run: |
