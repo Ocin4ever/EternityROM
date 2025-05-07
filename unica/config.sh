@@ -16,9 +16,8 @@
 #
 
 # UN1CA configuration file
-ROM_VERSION="5.0(beta)"
+ROM_VERSION="v5.0"
 ROM_VERSION+="-$(git rev-parse --short HEAD)"
-ROM_CODENAME="EternityROM"
 
 # Source ROM firmware
 case "$TARGET_SINGLE_SYSTEM_IMAGE" in

@@ -50,25 +50,71 @@ PRINT_HEADER()
     else
         ONEUI_VERSION="$MAJOR.$MINOR"
     fi
-
-    echo    'ui_print(" ");'
-    echo    'ui_print("****************************************");'
-    echo -n 'ui_print("'
-    echo -n "EternityROM $ROM_CODENAME $ROM_VERSION for $TARGET_NAME"
-    echo    '");'
-    echo    'ui_print("ROM by ExtremeXT @XDAforums");'
-    echo    'ui_print("Build system coded by salvo_giangri @XDAforums");'
-    echo    'ui_print("****************************************");'
-    echo -n 'ui_print("'
-    echo -n "One UI version: $ONEUI_VERSION"
-    echo    '");'
-    echo -n 'ui_print("'
-    echo -n "Source: $(GET_PROP "ro.system.build.fingerprint" "$WORK_DIR/system/system/build.prop")"
-    echo    '");'
-    echo -n 'ui_print("'
-    echo -n "Target: $(GET_PROP "ro.vendor.build.fingerprint" "$WORK_DIR/vendor/build.prop")"
-    echo    '");'
-    echo    'ui_print("****************************************");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print("****************************************");'
+echo -n 'ui_print("'
+echo -n "EternityROM v$ROM_VERSION for $TARGET_NAME"
+echo    '");'
+echo    'ui_print("ROM by Ocin4ever @XDAforums");'
+echo    'ui_print("Build system coded by salvo_giangri @XDAforums");'
+echo    'ui_print("****************************************");'
+echo -n 'ui_print("'
+echo -n "Source: $(GET_PROP "ro.system.build.fingerprint" "$WORK_DIR/system/system/build.prop")"
+echo    '");'
+echo -n 'ui_print("'
+echo -n "Target: $(GET_PROP "ro.vendor.build.fingerprint" "$WORK_DIR/vendor/build.prop")"
+echo    '");'
+echo    'ui_print("****************************************");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print("To avoid any issue, please FORMAT DATA under:");'
+echo    'ui_print("     Wipe -> Format Data");'
+echo    'ui_print(" ");'
+echo    'ui_print(" ");'
+echo    'ui_print("If you decide to ignore, don'\''t complain");'
+echo    'ui_print(" ");'
+echo    'ui_print("Press Volume+ to continue installation");'
+echo    'ui_print("****************************************");'
+echo    'assert(run_program("/sbin/sh", "-c", "while true; do getevent -lc 1 | grep -q -m1 '\''KEY_VOLUMEUP'\'' && exit 0; sleep 1; done"));'
 }
 
 GET_SPARSE_IMG_SIZE()
@@ -527,7 +573,7 @@ GENERATE_BUILD_INFO()
     true
 }
 
-FILE_NAME="EternityROM_${ROM_CODENAME}_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}"
+FILE_NAME="EternityROM_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}"
 # ]
 
 echo "Set up tmp dir"
