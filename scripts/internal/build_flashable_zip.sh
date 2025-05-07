@@ -657,17 +657,19 @@ LOG "- Generating OTA metadata"
 GENERATE_OTA_METADATA
 
 LOG "- Creating zip"
-EVAL "echo | zip > \"$OUT_DIR/rom.zip\" && zip -d \"$OUT_DIR/rom.zip\" -" || exit 1
+EVAL "echo | zip > \"$TMP_DIR/rom.zip\" && zip -d \"$TMP_DIR/rom.zip\" -" || exit 1
 while IFS= read -r f; do
     # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3601
     # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3609
     # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#184
     # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#186
     if [[ "$f" == *".new.dat.br" ]] || [[ "$f" == *".patch.dat" ]] || [[ "$f" == *"com/android/metadata"* ]]; then
-        EVAL "cd \"$TMP_DIR\" && zip -r -X -Z store \"$OUT_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
+        EVAL "cd \"$TMP_DIR\" && zip -r -X -Z store \"$TMP_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
     else
-        EVAL "cd \"$TMP_DIR\" && zip -r -X \"$OUT_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
+        EVAL "cd \"$TMP_DIR\" && zip -r -X \"$TMP_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
     fi
-done < <(find "$TMP_DIR" -type f)
+done < <(find "$TMP_DIR" -type f ! -name "*.zip")
+
+EVAL "mv \"$TMP_DIR/rom.zip\" \"$OUT_DIR/$FILE_NAME\"" || exit 1
 
 exit 0
