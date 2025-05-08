@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Device configuration file for Galaxy S10+ (Exynos) (beyond2lte)
+# Device configuration file for Galaxy N10+ (Exynos) (d2s)
 TARGET_NAME="Galaxy Note10+ (Exynos)"
 TARGET_CODENAME="d2s"
 TARGET_ASSERT_MODEL=("SM-N975F")
