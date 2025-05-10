@@ -21,10 +21,10 @@ source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
 
 TMP_DIR="$OUT_DIR/zip"
 
-FILE_NAME="EternityROM_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}.zip"
+ZIP_FILE_NAME="EternityROM_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}.zip"
 while [ -f "$OUT_DIR/$FILE_NAME" ]; do
     INCREMENTAL=$((INCREMENTAL + 1))
-    FILE_NAME="EternityROM_${ROM_VERSION}_$(date +%Y%m%d)-${INCREMENTAL}_${TARGET_CODENAME}.zip"
+    ZIP_FILE_NAME="EternityROM_${ROM_VERSION}_$(date +%Y%m%d)-${INCREMENTAL}_${TARGET_CODENAME}.zip"
 done
 
 trap 'rm -rf $TMP_DIR' EXIT INT
@@ -233,6 +233,8 @@ GENERATE_OTA_METADATA()
 GENERATE_UPDATER_SCRIPT()
 {
     local SCRIPT_FILE="$TMP_DIR/META-INF/com/google/android/updater-script"
+    local BROTLI_EXTENSION
+    $DEBUG || BROTLI_EXTENSION=".br"
 
     local PARTITION_COUNT=0
     local HAS_BOOT=false
@@ -259,16 +261,16 @@ GENERATE_UPDATER_SCRIPT()
     [ -f "$TMP_DIR/init_boot.img" ] && HAS_INIT_BOOT=true
     [ -f "$TMP_DIR/vendor_boot.img" ] && HAS_VENDOR_BOOT=true
     [ -f "$TMP_DIR/unsparse_super_empty.img" ] && HAS_SUPER_EMPTY=true
-    [ -f "$TMP_DIR/system.new.dat.br" ] && HAS_SYSTEM=true
-    [ -f "$TMP_DIR/vendor.new.dat.br" ] && HAS_VENDOR=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/product.new.dat.br" ] && HAS_PRODUCT=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/system_ext.new.dat.br" ] && HAS_SYSTEM_EXT=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/odm.new.dat.br" ] && HAS_ODM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/vendor_dlkm.new.dat.br" ] && HAS_VENDOR_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/odm_dlkm.new.dat.br" ] && HAS_ODM_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/system_dlkm.new.dat.br" ] && HAS_SYSTEM_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
-    [ -f "$TMP_DIR/prism.new.dat.br" ] && HAS_PRISM=true
-    [ -f "$TMP_DIR/optics.new.dat.br" ] && HAS_OPTICS=true
+    [ -f "$TMP_DIR/system.new.dat${BROTLI_EXTENSION}" ] && HAS_SYSTEM=true
+    [ -f "$TMP_DIR/vendor.new.dat${BROTLI_EXTENSION}" ] && HAS_VENDOR=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/product.new.dat${BROTLI_EXTENSION}" ] && HAS_PRODUCT=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/system_ext.new.dat${BROTLI_EXTENSION}" ] && HAS_SYSTEM_EXT=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/odm.new.dat${BROTLI_EXTENSION}" ] && HAS_ODM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/vendor_dlkm.new.dat${BROTLI_EXTENSION}" ] && HAS_VENDOR_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/odm_dlkm.new.dat${BROTLI_EXTENSION}" ] && HAS_ODM_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/system_dlkm.new.dat${BROTLI_EXTENSION}" ] && HAS_SYSTEM_DLKM=true && PARTITION_COUNT=$((PARTITION_COUNT + 1))
+    [ -f "$TMP_DIR/prism.new.dat${BROTLI_EXTENSION}" ] && HAS_PRISM=true
+    [ -f "$TMP_DIR/optics.new.dat${BROTLI_EXTENSION}" ] && HAS_OPTICS=true
     [ -f "$SRC_DIR/target/$TARGET_CODENAME/postinstall.edify" ] && HAS_POST_INSTALL=true
 
     {
@@ -317,7 +319,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system", '
             fi
-            echo -n    'package_extract_file("system.transfer.list"), "system.new.dat.br", "system.patch.dat") ||'
+            echo -n    'package_extract_file("system.transfer.list"), "system.new.dat${BROTLI_EXTENSION}", "system.patch.dat") ||'
             echo    '  abort("E1001: Failed to update system image.");'
         fi
         if $HAS_VENDOR; then
@@ -332,7 +334,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/vendor", '
             fi
-            echo -n    'package_extract_file("vendor.transfer.list"), "vendor.new.dat.br", "vendor.patch.dat") ||'
+            echo -n    'package_extract_file("vendor.transfer.list"), "vendor.new.dat${BROTLI_EXTENSION}", "vendor.patch.dat") ||'
             echo    '  abort("E2001: Failed to update vendor image.");'
         fi
         if $HAS_PRODUCT; then
@@ -347,7 +349,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/product", '
             fi
-            echo -n    'package_extract_file("product.transfer.list"), "product.new.dat.br", "product.patch.dat") ||'
+            echo -n    'package_extract_file("product.transfer.list"), "product.new.dat${BROTLI_EXTENSION}", "product.patch.dat") ||'
             echo    '  abort("E2001: Failed to update product image.");'
         fi
         if $HAS_SYSTEM_EXT; then
@@ -362,7 +364,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system_ext", '
             fi
-            echo -n    'package_extract_file("system_ext.transfer.list"), "system_ext.new.dat.br", "system_ext.patch.dat") ||'
+            echo -n    'package_extract_file("system_ext.transfer.list"), "system_ext.new.dat${BROTLI_EXTENSION}", "system_ext.patch.dat") ||'
             echo    '  abort("E2001: Failed to update system_ext image.");'
         fi
         if $HAS_ODM; then
@@ -377,7 +379,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/odm", '
             fi
-            echo -n    'package_extract_file("odm.transfer.list"), "odm.new.dat.br", "odm.patch.dat") ||'
+            echo -n    'package_extract_file("odm.transfer.list"), "odm.new.dat${BROTLI_EXTENSION}", "odm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update odm image.");'
         fi
         if $HAS_VENDOR_DLKM; then
@@ -392,7 +394,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/vendor_dlkm", '
             fi
-            echo -n    'package_extract_file("vendor_dlkm.transfer.list"), "vendor_dlkm.new.dat.br", "vendor_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("vendor_dlkm.transfer.list"), "vendor_dlkm.new.dat${BROTLI_EXTENSION}", "vendor_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update vendor_dlkm image.");'
         fi
         if $HAS_ODM_DLKM; then
@@ -407,7 +409,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/odm_dlkm", '
             fi
-            echo -n    'package_extract_file("odm_dlkm.transfer.list"), "odm_dlkm.new.dat.br", "odm_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("odm_dlkm.transfer.list"), "odm_dlkm.new.dat${BROTLI_EXTENSION}", "odm_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update odm_dlkm image.");'
         fi
         if $HAS_SYSTEM_DLKM; then
@@ -422,7 +424,7 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system_dlkm", '
             fi
-            echo -n    'package_extract_file("system_dlkm.transfer.list"), "system_dlkm.new.dat.br", "system_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("system_dlkm.transfer.list"), "system_dlkm.new.dat${BROTLI_EXTENSION}", "system_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update system_dlkm image.");'
         fi
         if $HAS_PRISM; then
@@ -433,7 +435,7 @@ GENERATE_UPDATER_SCRIPT()
             echo -n    '"'
             echo -n    "$TARGET_BOOT_DEVICE_PATH"
             echo -n    '/prism", '
-            echo -n    'package_extract_file("prism.transfer.list"), "prism.new.dat.br", "prism.patch.dat") ||'
+            echo -n    'package_extract_file("prism.transfer.list"), "prism.new.dat${BROTLI_EXTENSION}", "prism.patch.dat") ||'
             echo    '  abort("E2001: Failed to update prism image.");'
         fi
         if $HAS_OPTICS; then
@@ -444,7 +446,7 @@ GENERATE_UPDATER_SCRIPT()
             echo -n    '"'
             echo -n    "$TARGET_BOOT_DEVICE_PATH"
             echo -n    '/optics", '
-            echo -n    'package_extract_file("optics.transfer.list"), "optics.new.dat.br", "optics.patch.dat") ||'
+            echo -n    'package_extract_file("optics.transfer.list"), "optics.new.dat${BROTLI_EXTENSION}", "optics.patch.dat") ||'
             echo    '  abort("E2001: Failed to update optics image.");'
         fi
         if [ "$TARGET_SUPER_PARTITION_SIZE" -ne 0 ]; then
@@ -609,10 +611,12 @@ while IFS= read -r f; do
     EVAL "img2sdat -o \"$TMP_DIR\" -B \"$TMP_DIR/$PARTITION.map\" \"$f\"" || exit 1
     rm -f "$f" "$TMP_DIR/$PARTITION.map"
 
-    LOG "- Compressing $PARTITION.new.dat"
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3585
-    EVAL "brotli --quality=6 --output=\"$TMP_DIR/$PARTITION.new.dat.br\" \"$TMP_DIR/$PARTITION.new.dat\"" || exit 1
-    rm -f "$TMP_DIR/$PARTITION.new.dat"
+    if ! $DEBUG; then
+        LOG "- Compressing $PARTITION.new.dat"
+        # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3585
+        EVAL "brotli --quality=6 --output=\"$TMP_DIR/$PARTITION.new.dat.br\" \"$TMP_DIR/$PARTITION.new.dat\"" || exit 1
+        rm -f "$TMP_DIR/$PARTITION.new.dat"
+    fi
 done < <(find "$TMP_DIR" -maxdepth 1 -type f -name "*.img")
 
 if [ -d "$WORK_DIR/kernel" ]; then
