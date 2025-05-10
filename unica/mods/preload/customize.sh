@@ -1,7 +1,3 @@
-# Samsung Internet Browser
-DOWNLOAD_FILE "$(GET_GALAXY_STORE_DOWNLOAD_URL "com.sec.android.app.sbrowser")" \
-    "$WORK_DIR/system/system/preload/SBrowser/SBrowser.apk"
-
 # Samsung Notes
 DOWNLOAD_FILE "$(GET_GALAXY_STORE_DOWNLOAD_URL "com.samsung.android.app.notes")" \
     "$WORK_DIR/system/system/preload/Notes40_Removable/Notes40_Removable.apk"
