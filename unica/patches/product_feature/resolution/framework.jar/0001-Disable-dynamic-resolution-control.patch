@@ -1,0 +1,36 @@
+From 4aaad00ca98df32b705692fd3797ca20023898b0 Mon Sep 17 00:00:00 2001
+From: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
+Date: Mon, 14 Apr 2025 19:59:50 +0300
+Subject: [PATCH] Disable dynamic resolution control
+
+Co-Authored-by: Salvo Giangreco <giangrecosalvo9@gmail.com>
+Signed-off-by: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
+---
+ smali_classes6/com/samsung/android/rune/CoreRune.smali | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/smali_classes6/com/samsung/android/rune/CoreRune.smali b/smali_classes6/com/samsung/android/rune/CoreRune.smali
+index c11691d..f016802 100644
+--- a/smali_classes6/com/samsung/android/rune/CoreRune.smali
++++ b/smali_classes6/com/samsung/android/rune/CoreRune.smali
+@@ -2731,7 +2731,7 @@
+ 
+     if-eqz v1, :cond_12
+ 
+-    invoke-virtual {v4, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    invoke-virtual {v4, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 
+     move-result v1
+ 
+@@ -3287,7 +3287,7 @@
+ 
+     nop
+ 
+-    invoke-virtual {v4, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    invoke-virtual {v4, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 
+     move-result v0
+ 
+-- 
+2.45.2
+
