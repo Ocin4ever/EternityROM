@@ -2,3 +2,10 @@
 /system/lib64 u:object_r:system_lib_file:s0
 /system/lib64/aidl_comm_iccc_client\.so u:object_r:system_lib_file:s0
 /system/lib64/vendor\.samsung\.hardware\.tlc\.iccc-V3-ndk\.so u:object_r:system_lib_file:s0
+/system/priv-app u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions/SamsungSmartSuggestions\.apk u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions/oat u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions/oat/arm64 u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions/oat/arm64/SamsungSmartSuggestions\.odex u:object_r:system_file:s0
+/system/priv-app/SamsungSmartSuggestions/oat/arm64/SamsungSmartSuggestions\.vdex u:object_r:system_file:s0
