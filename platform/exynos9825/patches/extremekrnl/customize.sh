@@ -1,5 +1,5 @@
 # [
-EXTREMEKRNL_REPO="https://github.com/ExtremeXT/M62-backport/releases/download/latest"
+EXTREMEKRNL_REPO="https://github.com/Ocin4ever/ExtremeKernel/releases/download/latest"
 KERNELSU_MANAGER_APK="https://github.com/KernelSU-Next/KernelSU-Next/releases/download/v1.0.6/KernelSU_Next_v1.0.6_12490-release.apk"
 
 REPLACE_KERNEL_BINARIES()
