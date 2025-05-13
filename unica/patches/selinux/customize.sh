@@ -60,7 +60,7 @@ for e in $ENTRIES; do
         # the problematic entry is currently present in system_ext, check if we need to remove it
         if ! grep -q -F "(type $e)" "$WORK_DIR/vendor/etc/selinux/plat_pub_versioned.cil"; then
             # the problematic entry is not supported by the target device
-            echo "\"$e\" SELinux entry not supported. Removing"
+            LOG "- \"$e\" SELinux entry not supported. Removing"
             sed -i "/($e)/d" "$WORK_DIR/$(GET_SYSTEM_EXT)/etc/selinux/mapping/$CIL_NAME.cil"
             for a in $VENDOR_API_LIST; do
                 sed -i "/${e}_${a}/d" "$WORK_DIR/$(GET_SYSTEM_EXT)/etc/selinux/mapping/$CIL_NAME.cil"
