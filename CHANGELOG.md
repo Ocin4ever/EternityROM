@@ -1,5 +1,13 @@
 # EternityROM changelog
 
+## 5.1
+- Reworked Extra Dim patch:
+  - Accessibility can finally be updated with the Galaxy Store
+- Fixed CSC beeing spoofed to China:
+  - This is mandatory if you want to use Smart Manager
+  - CSC is dynamically spoofed
+- Bring back stock gamemanger props
+
 ## 5.0
 - One UI 7 support
 - Opensource the project:
