@@ -7,6 +7,9 @@
   - This is mandatory if you want to use Smart Manager
   - CSC is dynamically spoofed
 - Bring back stock gamemanger props
+- Update debloat list:
+  - Your Phone is back
+  - Use Google Messages instead of Samsung Messages
 
 ## 5.0
 - One UI 7 support
