@@ -726,14 +726,24 @@ SET_PROP()
         return 1
     fi
 
-    if [ "$(GET_PROP "$PARTITION" "$PROP")" ]; then
-        local FILES
-        FILES="$(_GET_PROP_LOCATION "$PARTITION" "$PROP")"
+    local FILES
+    FILES="$(_GET_PROP_LOCATION "$PARTITION" "$PROP")"
+    
+    local PROP_EXISTS=0
+    # shellcheck disable=SC2116
+    for f in $(echo "$FILES"); do
+        if grep -q "^${PROP}\b" "$f"; then
+            PROP_EXISTS=1
+            break
+        fi
+    done
+
+    if [ "$PROP_EXISTS" -eq 1 ]; then
         # shellcheck disable=SC2116
         for f in $(echo "$FILES"); do
             if [[ "$VALUE" == "-d" ]] || [[ "$VALUE" == "--delete" ]]; then
                 echo "Deleting \"$PROP\" prop in ${f//$WORK_DIR/}"
-                sed -i "/^$PROP/d" "$f"
+                sed -i "/^$PROP\b/d" "$f"
             else
                 echo "Replacing \"$PROP\" prop with \"$VALUE\" in ${f//$WORK_DIR/}"
 
