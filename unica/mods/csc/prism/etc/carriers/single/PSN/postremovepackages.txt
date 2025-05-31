@@ -1,3 +1,0 @@
-2
-SwiftKey-market-arm64-v8a-release.apk
-SwiftKeyFactorySettings-samsung.apk
