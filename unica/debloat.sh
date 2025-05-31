@@ -48,11 +48,6 @@ etc/init/vendor_flash_recovery.rc
 recovery-from-boot.p
 "
 
-# SEPolicy version
-VENDOR_DEBLOAT+="
-etc/selinux/vendor_sepolicy_version
-"
-
 # Apps debloat
 PRODUCT_DEBLOAT+="
 app/AssistantShell
