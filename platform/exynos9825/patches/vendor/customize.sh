@@ -36,7 +36,7 @@ do
 done
 
 echo "Removing RenderScript..."
-BLOBS_LIST="Add commentMore actions
+BLOBS_LIST="
 bin/bcc_mali
 lib/libmalicore.bc
 lib/libclcore.bc
