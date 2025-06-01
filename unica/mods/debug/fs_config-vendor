@@ -1,0 +1,4 @@
+/ 0 2000 755 capabilities=0x0
+vendor/etc 0 2000 755 capabilities=0x0
+vendor/etc/init 0 2000 755 capabilities=0x0
+vendor/etc/init/init.debug.rc 0 0 644 capabilities=0x0

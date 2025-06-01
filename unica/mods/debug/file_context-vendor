@@ -1,0 +1,4 @@
+/vendor u:object_r:vendor_file:s0
+/vendor/etc u:object_r:vendor_configs_file:s0
+/vendor/etc/init u:object_r:vendor_configs_file:s0
+/vendor/etc/init/init\.debug\.rc u:object_r:vendor_configs_file:s0
