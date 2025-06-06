@@ -74,7 +74,7 @@ BUILD()
     for CMD in "${CMDS[@]}"; do
         local OUT
         OUT="$(eval "$CMD" 2>&1)"
-        if $?; then
+        if [ $? -ne 0 ]; then
             echo -e    '\033[1;31m'"BUILD FAILED!"'\033[0m\n' >&2
             echo -e    '\033[0;31m'"$CMD"'\033[0m\n' >&2
             echo -n -e '\033[0;33m' >&2
