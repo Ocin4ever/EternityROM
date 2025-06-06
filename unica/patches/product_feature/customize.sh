@@ -259,3 +259,11 @@ if $SOURCE_SUPPORT_HOTSPOT_ENHANCED_OPEN; then
         APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/wifi/SecSettings.apk/0004-Disable-Hotspot-Enhanced-Open.patch"
     fi
 fi
+
+if $SOURCE_AUDIO_SUPPORT_ACH_RINGTONE; then
+    if ! $TARGET_AUDIO_SUPPORT_ACH_RINGTONE; then
+        echo "Applying ACH ringtone patches"
+        APPLY_PATCH "system/framework/framework.jar" "audio/framework.jar/0001-Disable-ACH-ringtone-support.patch"
+        APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "audio/SecSettings.apk/0001-Disable-ACH-ringtone-support.patch"
+    fi
+fi
