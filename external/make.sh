@@ -273,7 +273,7 @@ fi
 if $OMCDECODER; then
     OMCDECODER_CMDS=(
         "clang++ -lz -I./include decoder.cpp -o cscdecoder"
-        "cp -a \"cscdecoder\" \"$TOOLS_DIR\""
+        "cp -a \"cscdecoder\" \"$TOOLS_DIR/bin\""
     )
 
     BUILD "omcdecoder" "$SRC_DIR/external/omcdecoder" "${OMCDECODER_CMDS[@]}"
