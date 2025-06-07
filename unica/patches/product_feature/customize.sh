@@ -263,7 +263,7 @@ fi
 if $SOURCE_AUDIO_SUPPORT_ACH_RINGTONE; then
     if ! $TARGET_AUDIO_SUPPORT_ACH_RINGTONE; then
         echo "Applying ACH ringtone patches"
-        APPLY_PATCH "system/framework/framework.jar" "audio/framework.jar/0001-Disable-ACH-ringtone-support.patch"
-        APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "audio/SecSettings.apk/0001-Disable-ACH-ringtone-support.patch"
+        APPLY_PATCH "system" "framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/audio/framework.jar/0001-Disable-ACH-ringtone-support.patch"
+        APPLY_PATCH "system" "priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/audio/SecSettings.apk/0001-Disable-ACH-ringtone-support.patch"
     fi
 fi
