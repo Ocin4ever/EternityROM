@@ -688,4 +688,6 @@ while IFS= read -r f; do
     fi
 done < <(find "$TMP_DIR" -type f ! -name "*.zip")
 
+mv -f "$TMP_DIR/rom.zip" "$OUT_DIR/$ZIP_FILE_NAME"
+
 exit 0
