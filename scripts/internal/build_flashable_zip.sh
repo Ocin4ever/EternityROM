@@ -239,7 +239,7 @@ GENERATE_UPDATER_SCRIPT()
 {
     local SCRIPT_FILE="$TMP_DIR/META-INF/com/google/android/updater-script"
     local BROTLI_EXTENSION
-    $DEBUG || BROTLI_EXTENSION=".br"
+    BROTLI_EXTENSION=".br"
 
     local PARTITION_COUNT=0
     local HAS_BOOT=false
@@ -324,7 +324,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system", '
             fi
-            echo -n    'package_extract_file("system.transfer.list"), "system.new.dat${BROTLI_EXTENSION}", "system.patch.dat") ||'
+            echo -n    'package_extract_file("system.transfer.list"), '
+            echo -n    "\"system.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "system.patch.dat") ||'
             echo    '  abort("E1001: Failed to update system image.");'
         fi
         if $HAS_VENDOR; then
@@ -339,7 +341,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/vendor", '
             fi
-            echo -n    'package_extract_file("vendor.transfer.list"), "vendor.new.dat${BROTLI_EXTENSION}", "vendor.patch.dat") ||'
+            echo -n    'package_extract_file("vendor.transfer.list"), '
+            echo -n    "\"vendor.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "vendor.patch.dat") ||'
             echo    '  abort("E2001: Failed to update vendor image.");'
         fi
         if $HAS_PRODUCT; then
@@ -354,7 +358,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/product", '
             fi
-            echo -n    'package_extract_file("product.transfer.list"), "product.new.dat${BROTLI_EXTENSION}", "product.patch.dat") ||'
+            echo -n    'package_extract_file("product.transfer.list"), '
+            echo -n    "\"product.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "product.patch.dat") ||'
             echo    '  abort("E2001: Failed to update product image.");'
         fi
         if $HAS_SYSTEM_EXT; then
@@ -369,7 +375,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system_ext", '
             fi
-            echo -n    'package_extract_file("system_ext.transfer.list"), "system_ext.new.dat${BROTLI_EXTENSION}", "system_ext.patch.dat") ||'
+            echo -n    'package_extract_file("system_ext.transfer.list"), '
+            echo -n    "\"system_ext.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "system_ext.patch.dat") ||'
             echo    '  abort("E2001: Failed to update system_ext image.");'
         fi
         if $HAS_ODM; then
@@ -384,7 +392,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/odm", '
             fi
-            echo -n    'package_extract_file("odm.transfer.list"), "odm.new.dat${BROTLI_EXTENSION}", "odm.patch.dat") ||'
+            echo -n    'package_extract_file("odm.transfer.list"), '
+            echo -n    "\"odm.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "odm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update odm image.");'
         fi
         if $HAS_VENDOR_DLKM; then
@@ -399,7 +409,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/vendor_dlkm", '
             fi
-            echo -n    'package_extract_file("vendor_dlkm.transfer.list"), "vendor_dlkm.new.dat${BROTLI_EXTENSION}", "vendor_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("vendor_dlkm.transfer.list"), '
+            echo -n    "\"vendor_dlkm.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "vendor_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update vendor_dlkm image.");'
         fi
         if $HAS_ODM_DLKM; then
@@ -414,7 +426,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/odm_dlkm", '
             fi
-            echo -n    'package_extract_file("odm_dlkm.transfer.list"), "odm_dlkm.new.dat${BROTLI_EXTENSION}", "odm_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("odm_dlkm.transfer.list"), '
+            echo -n    "\"odm_dlkm.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "odm_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update odm_dlkm image.");'
         fi
         if $HAS_SYSTEM_DLKM; then
@@ -429,7 +443,9 @@ GENERATE_UPDATER_SCRIPT()
                 echo -n    "$TARGET_BOOT_DEVICE_PATH"
                 echo -n    '/system_dlkm", '
             fi
-            echo -n    'package_extract_file("system_dlkm.transfer.list"), "system_dlkm.new.dat${BROTLI_EXTENSION}", "system_dlkm.patch.dat") ||'
+            echo -n    'package_extract_file("system_dlkm.transfer.list"), '
+            echo -n    "\"system_dlkm.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "system_dlkm.patch.dat") ||'
             echo    '  abort("E2001: Failed to update system_dlkm image.");'
         fi
         if $HAS_PRISM; then
@@ -440,7 +456,9 @@ GENERATE_UPDATER_SCRIPT()
             echo -n    '"'
             echo -n    "$TARGET_BOOT_DEVICE_PATH"
             echo -n    '/prism", '
-            echo -n    'package_extract_file("prism.transfer.list"), "prism.new.dat${BROTLI_EXTENSION}", "prism.patch.dat") ||'
+            echo -n    'package_extract_file("prism.transfer.list"), '
+            echo -n    "\"prism.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "prism.patch.dat") ||'
             echo    '  abort("E2001: Failed to update prism image.");'
         fi
         if $HAS_OPTICS; then
@@ -451,7 +469,9 @@ GENERATE_UPDATER_SCRIPT()
             echo -n    '"'
             echo -n    "$TARGET_BOOT_DEVICE_PATH"
             echo -n    '/optics", '
-            echo -n    'package_extract_file("optics.transfer.list"), "optics.new.dat${BROTLI_EXTENSION}", "optics.patch.dat") ||'
+            echo -n    'package_extract_file("optics.transfer.list"), '
+            echo -n    "\"optics.new.dat${BROTLI_EXTENSION}\""
+            echo       ', "optics.patch.dat") ||'
             echo    '  abort("E2001: Failed to update optics image.");'
         fi
         if [ "$TARGET_SUPER_PARTITION_SIZE" -ne 0 ]; then
@@ -621,7 +641,13 @@ while IFS= read -r f; do
     PARTITION=$(basename "$f")
     IS_VALID_PARTITION_NAME "$PARTITION" || continue
 
-    "$SRC_DIR/scripts/build_fs_image.sh" "$TARGET_OS_FILE_SYSTEM" \
+    if [[ "$PARTITION" == "system" || "$PARTITION" == "prism" || "$PARTITION" == "optics" ]]; then
+        FILESYSTEM_TYPE="ext4"
+    else
+        FILESYSTEM_TYPE="$TARGET_OS_FILE_SYSTEM"
+    fi
+
+    "$SRC_DIR/scripts/build_fs_image.sh" "$FILESYSTEM_TYPE" \
         -o "$TMP_DIR/$PARTITION.img" -m -S \
         "$WORK_DIR/$PARTITION" "$WORK_DIR/configs/file_context-$PARTITION" "$WORK_DIR/configs/fs_config-$PARTITION" || exit 1
 done < <(find "$WORK_DIR" -maxdepth 1 -type d)
@@ -675,18 +701,7 @@ LOG "- Generating OTA metadata"
 GENERATE_OTA_METADATA
 
 LOG "- Creating zip"
-EVAL "echo | zip > \"$TMP_DIR/rom.zip\" && zip -d \"$TMP_DIR/rom.zip\" -" || exit 1
-while IFS= read -r f; do
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3601
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#3609
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#184
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#186
-    if [[ "$f" == *".new.dat.br" ]] || [[ "$f" == *".patch.dat" ]] || [[ "$f" == *"com/android/metadata"* ]]; then
-        EVAL "cd \"$TMP_DIR\" && zip -r -X -Z store \"$TMP_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
-    else
-        EVAL "cd \"$TMP_DIR\" && zip -r -X \"$TMP_DIR/rom.zip\" \"${f//$TMP_DIR\//}\"" || exit 1
-    fi
-done < <(find "$TMP_DIR" -type f ! -name "*.zip")
+zip -rq ../$ZIP_FILE_NAME ./*
 
 mv -f "$TMP_DIR/rom.zip" "$OUT_DIR/$ZIP_FILE_NAME"
 

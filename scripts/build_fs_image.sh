@@ -40,7 +40,7 @@ BUILD_IMAGE_MKFS()
     local MANUAL_SPARSE=false
 
     # Avoid OOM errors when building as sparse image
-    if $SPARSE && [[ "$(awk '/MemTotal/ { print int ($2 / 1024) }' "/proc/meminfo")" -lt "10240" ]]; then
+    if $SPARSE && [[ "$(awk '/MemTotal/ { print int ($2 / 1024) }' "/proc/meminfo")" -lt "20000" ]]; then
         SPARSE=false
         MANUAL_SPARSE=true
     fi
