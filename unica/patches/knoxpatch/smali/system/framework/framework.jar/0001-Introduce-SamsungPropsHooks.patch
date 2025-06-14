@@ -1,9 +1,9 @@
 From e77c676ca155c4881c213a04a5350c2d949fb7ee Mon Sep 17 00:00:00 2001
-From: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Wed, 28 May 2025 20:11:39 +0200
 Subject: [PATCH] Introduce SamsungPropsHooks
 
-Co-Authored-By: Salvo Giangreco <giangrecosalvo9@gmail.com>
+Signed-off-by: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
 ---
  .../smali/android/app/Instrumentation.smali   |   4 +
  .../android/os/SystemProperties.smali         |  14 +

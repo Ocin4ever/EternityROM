@@ -1,9 +1,9 @@
 From 455532dae4396dc7ff4394ba765b6dbad00c1644 Mon Sep 17 00:00:00 2001
-From: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Sat, 8 Mar 2025 16:29:54 +0100
 Subject: [PATCH] Bypass-ICD-verification
 
-Co-Authored-By: Salvo Giangreco <giangrecosalvo9@gmail.com>
+Signed-off-by: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
 ---
  .../android/security/keystore/AttestParameterSpec.smali       | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)

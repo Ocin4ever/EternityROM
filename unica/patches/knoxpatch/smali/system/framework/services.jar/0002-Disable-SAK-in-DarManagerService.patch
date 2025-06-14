@@ -1,9 +1,9 @@
 From b8a04bf78c6f1d52d78568fbeacf92d77912cc47 Mon Sep 17 00:00:00 2001
-From: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Thu, 29 May 2025 10:27:26 +0200
 Subject: [PATCH] Disable SAK in DarManagerService
 
-Co-Authored-By: Salvo Giangreco <giangrecosalvo9@gmail.com>
+Signed-off-by: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
 ---
  .../server/knox/dar/DarManagerService.smali   | 491 +-----------------
  1 file changed, 13 insertions(+), 478 deletions(-)

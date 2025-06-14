@@ -1,9 +1,9 @@
 From f93edc0ccfb3a790ae7599f01567fe2070650401 Mon Sep 17 00:00:00 2001
-From: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Sat, 12 Apr 2025 23:57:32 +0200
 Subject: [PATCH] Introduce-SamsungPropsHooks
 
-Co-Authored-By: Salvo Giangreco <giangrecosalvo9@gmail.com>
+Signed-off-by: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
 ---
  .../knox/EnterpriseDeviceManager.smali        | 22 ++-----------------
  1 file changed, 2 insertions(+), 20 deletions(-)
