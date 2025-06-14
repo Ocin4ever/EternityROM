@@ -13,16 +13,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - module: "Galaxy A26 (a26xxx)"
+            path: "prebuilts/samsung/a26xxx"
           - module: "Galaxy S21 Ultra (p3sxxx)"
             path: "prebuilts/samsung/p3sxxx"
           - module: "Galaxy S22 (r0qxxx)"
             path: "prebuilts/samsung/r0qxxx"
-          - module: "Galaxy S22 Ultra (b0sxxx)"
-            path: "prebuilts/samsung/b0sxxx"
           - module: "Galaxy S23 Ultra (dm3qxxx)"
             path: "prebuilts/samsung/dm3qxxx"
           - module: "Galaxy S24 (e1sxxx)"
             path: "prebuilts/samsung/e1sxxx"
+          - module: "Galaxy S24 Ultra (e3qxxx)"
+            path: "prebuilts/samsung/e3qxxx"
           - module: "Galaxy S25 Ultra (pa3qxxx)"
             path: "prebuilts/samsung/pa3qxxx"
           - module: "Galaxy S10 FE (gts10fewifixx)"
