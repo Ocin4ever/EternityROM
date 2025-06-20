@@ -16,7 +16,7 @@
 #
 
 # UN1CA configuration file
-ROM_VERSION="v5.1"
+ROM_VERSION="v5.2"
 ROM_VERSION+="-$(git rev-parse --short HEAD)"
 DEBUG=0
 
