@@ -1,5 +1,15 @@
 # EternityROM changelog
 
+## 5.2
+- Update to June SPL (S926BXXS7BYEC)
+- Fixed Secure Folder
+- Improve status bar padding for Note10+
+- Experimental:
+  - Try to improve low signal on LTE
+  - Thanks Freerunner4ever
+- Resolve camera crashing:
+  - This was a regression over v5.0
+
 ## 5.1
 - Update to May SPL (S926BXXU6BYE7)
 - Upstream KernelSU-Next to v1.0.7
