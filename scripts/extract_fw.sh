@@ -73,20 +73,24 @@ EXTRACT_KERNEL_BINARIES()
 
     mkdir -p "$FW_DIR/${MODEL}_${CSC}/kernel"
     for f in $FILES; do
-        [ -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt" ] && rm -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt"
-
-        EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
-        [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] || continue
-        
         if [ "$f" = "dt.img" ]; then
-            LOG_STEP_IN "- Renaming dt.img to dtb.img"
+            f="dtb.img"
+            
+            [ -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt" ] && rm -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt"
 
-            mv -f "$FW_DIR/${MODEL}_${CSC}/dt.img" "$FW_DIR/${MODEL}_${CSC}/kernel/dtb.img"
-            STORE_KERNEL_IMAGE_METADATA "$FW_DIR/${MODEL}_${CSC}/kernel/dtb.img"
-            LOG_STEP_OUT
+            EXTRACT_FILE_FROM_TAR "$AP_TAR" "dt.img" || exit 1
+            [ -f "$FW_DIR/${MODEL}_${CSC}/dt.img" ] || continue
+        
+            LOG "- Renaming dt.img to dtb.img"
+            mv -f "$FW_DIR/${MODEL}_${CSC}/dt.img" "$FW_DIR/${MODEL}_${CSC}/kernel/$f"
+            STORE_KERNEL_IMAGE_METADATA "$FW_DIR/${MODEL}_${CSC}/kernel/$f"
         else
-            mv -f "$FW_DIR/${MODEL}_${CSC}/$f" "$FW_DIR/${MODEL}_${CSC}/kernel/$f"
+            [ -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt" ] && rm -f "$FW_DIR/${MODEL}_${CSC}/${f}_metadata.txt"
 
+            EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
+            [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] || continue
+
+            mv -f "$FW_DIR/${MODEL}_${CSC}/$f" "$FW_DIR/${MODEL}_${CSC}/kernel/$f"
             STORE_KERNEL_IMAGE_METADATA "$FW_DIR/${MODEL}_${CSC}/kernel/$f"
         fi
     done
@@ -428,13 +432,16 @@ for i in "${FIRMWARES[@]}"; do
 
     BL_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "BL_$(cut -d "/" -f 1 -s <<< "$DOWNLOADED_FIRMWARE")*.md5" | sort -r | head -n 1)"
     AP_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "AP_$(cut -d "/" -f 1 -s <<< "$DOWNLOADED_FIRMWARE")*.md5" | sort -r | head -n 1)"
-    CSC_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "CSC*"
+    CSC_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "CSC_$(cut -d "/" -f 1 -s <<< "$MODEL")*.md5" | sort -r | head -n 1)"
 
     if [ ! "$BL_TAR" ]; then
         LOG "$(tput setaf 1)! No BL tar found$(tput sgr0)"
         exit 1
     elif [ ! "$AP_TAR" ]; then
         LOG "$(tput setaf 1)! No AP tar found$(tput sgr0)"
+        exit 1
+    elif [ ! "$CSC_TAR" ]; then
+        LOG "$(tput setaf 1)! No CSC tar found$(tput sgr0)"
         exit 1
     fi
 
