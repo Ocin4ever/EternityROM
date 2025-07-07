@@ -1,11 +1,15 @@
-From fc6c1bb5823109ee8e1d33e5e9a3fd9b31605aa6 Mon Sep 17 00:00:00 2001
-From: Ocin4ever <winicoco24@gmail.com>
-Date: Sat, 3 May 2025 22:24:59 +0200
+From ca12043587bcb41586bec0d096e168c6510acae1 Mon Sep 17 00:00:00 2001
+From: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
+Date: Sat, 21 Jun 2025 20:37:20 +0200
 Subject: [PATCH] Nuke Knox HDM version
 
+Signed-off-by: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+---
+ .../samsung/android/knox/hdm/HdmManager.smali | 40 ++-----------------
+ 1 file changed, 3 insertions(+), 37 deletions(-)
 
 diff --git a/smali_classes4/com/samsung/android/knox/hdm/HdmManager.smali b/smali_classes4/com/samsung/android/knox/hdm/HdmManager.smali
-index 6bd534af66..e09b9ead3f 100644
+index 89468d9d34..fec2433412 100644
 --- a/smali_classes4/com/samsung/android/knox/hdm/HdmManager.smali
 +++ b/smali_classes4/com/samsung/android/knox/hdm/HdmManager.smali
 @@ -35,7 +35,7 @@

@@ -1,14 +1,15 @@
-From c4445d258b3c5e9b26ba284946a7e96abee1626e Mon Sep 17 00:00:00 2001
+From d8d656d44c72b12f2c57a49d7614c09fd472255c Mon Sep 17 00:00:00 2001
 From: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
-Date: Sun, 27 Apr 2025 22:56:19 +0300
+Date: Sat, 21 Jun 2025 20:22:38 +0200
 Subject: [PATCH] Nuke SemService
 
+Signed-off-by: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
 ---
  ...temServer$$ExternalSyntheticLambda10.smali | 23 -------------------
  1 file changed, 23 deletions(-)
 
 diff --git a/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali b/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
-index 9c78efa9f..76137321e 100644
+index cf1145e5df..4732a2d63c 100644
 --- a/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
 +++ b/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
 @@ -46,29 +46,6 @@
@@ -42,5 +43,5 @@ index 9c78efa9f..76137321e 100644
  
      invoke-virtual {v2, v3}, Lcom/android/server/utils/TimingsTraceAndSlog;->traceBegin(Ljava/lang/String;)V
 -- 
-2.45.2
+2.43.0
 

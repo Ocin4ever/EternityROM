@@ -1,14 +1,15 @@
-From 09fcea7074139834e342ae55c5f466598380a95f Mon Sep 17 00:00:00 2001
+From 96115a1857d893a5f9ff0fb0b32cf5e8059b79e0 Mon Sep 17 00:00:00 2001
 From: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
-Date: Sat, 26 Apr 2025 20:02:42 +0300
+Date: Sat, 21 Jun 2025 20:20:45 +0200
 Subject: [PATCH] Nuke MPOS Service
 
+Signed-off-by: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
 ---
  ...temServer$$ExternalSyntheticLambda10.smali | 31 -------------------
  1 file changed, 31 deletions(-)
 
 diff --git a/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali b/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
-index 4b817aaf..9c78efa9 100644
+index 8c7a2c6c7f..cf1145e5df 100644
 --- a/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
 +++ b/smali/com/android/server/SystemServer$$ExternalSyntheticLambda10.smali
 @@ -149,37 +149,6 @@
@@ -50,5 +51,5 @@ index 4b817aaf..9c78efa9 100644
  
      invoke-virtual {v2, p0}, Lcom/android/server/utils/TimingsTraceAndSlog;->traceBegin(Ljava/lang/String;)V
 -- 
-2.45.2
+2.43.0
 
