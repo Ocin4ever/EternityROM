@@ -66,9 +66,6 @@ case "$1" in
     "prebuilts/samsung/a26xxx")
         FIRMWARE="SM-A266B/EUX/350439761193107"
         ;;
-    "prebuilts/samsung/r11sxxx")
-        FIRMWARE="SM-S711B/EUX/355195301615976"
-        ;;
     "prebuilts/samsung/e1sxxx")
         FIRMWARE="SM-S921B/EUX/350070120202022"
         ;;
@@ -76,7 +73,7 @@ case "$1" in
         FIRMWARE="SM-S926B/EUX/355622360977567"
         ;;
     "prebuilts/samsung/e3qxxx")
-        FIRMWARE="SM-S928B/EUX/355894894194085"
+        FIRMWARE="SM-S928B/EUX/353223610747397"
         ;;
     "prebuilts/samsung/gts10fewifixx")
         FIRMWARE="SM-X520/EUX/R52Y30G0M0T"
@@ -89,6 +86,9 @@ case "$1" in
         ;;
     "prebuilts/samsung/pa3qzcx")
         FIRMWARE="SM-S9380/CHC/355534491000674"
+        ;;
+    "prebuilts/samsung/r11sxxx")
+        FIRMWARE="SM-S711B/EUX/355195301615976"
         ;;
     *)
         echo "Firmware not set for path $1"

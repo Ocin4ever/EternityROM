@@ -17,8 +17,6 @@ jobs:
             path: "prebuilts/samsung/a26xxx"
           - module: "Galaxy S21 Ultra (p3sxxx)"
             path: "prebuilts/samsung/p3sxxx"
-          - module: "Galaxy S23 Ultra (dm3qxxx)"
-            path: "prebuilts/samsung/dm3qxxx"
           - module: "Galaxy S24 (e1sxxx)"
             path: "prebuilts/samsung/e1sxxx"
           - module: "Galaxy S24+ (e2sxxx)"
