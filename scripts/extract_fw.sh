@@ -28,6 +28,7 @@ LATEST_FIRMWARE=""
 DOWNLOADED_FIRMWARE=""
 BL_TAR=""
 AP_TAR=""
+CSC_TAR=""
 
 TMP_DIR="$(mktemp -d)"
 
@@ -74,7 +75,7 @@ EXTRACT_KERNEL_BINARIES()
 EXTRACT_OS_PARTITIONS()
 {
     # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#131
-    local FILES="system.img vendor.img product.img system_ext.img odm.img vendor_dlkm.img odm_dlkm.img system_dlkm.img"
+    local FILES="system.img vendor.img product.img system_ext.img odm.img vendor_dlkm.img odm_dlkm.img system_dlkm.img optics.img prism.img"
 
     LOG_STEP_IN "- Extracting OS partitions"
 
@@ -102,7 +103,11 @@ EXTRACT_OS_PARTITIONS()
         rm -f "$FW_DIR/${MODEL}_${CSC}/super.img"
     else
         for f in $FILES; do
-            EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
+            if FILE_EXISTS_IN_TAR "$CSC_TAR" "$f".lz4; then
+                EXTRACT_FILE_FROM_TAR "$CSC_TAR" "$f" || exit 1
+            else
+                EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
+            fi
             [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] || continue
             UNSPARSE_IMAGE "$FW_DIR/${MODEL}_${CSC}/$f" || exit 1
             STORE_OS_PARTITION_METADATA "$FW_DIR/${MODEL}_${CSC}/$f"
@@ -408,6 +413,7 @@ for i in "${FIRMWARES[@]}"; do
 
     BL_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "BL_$(cut -d "/" -f 1 -s <<< "$DOWNLOADED_FIRMWARE")*.md5" | sort -r | head -n 1)"
     AP_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "AP_$(cut -d "/" -f 1 -s <<< "$DOWNLOADED_FIRMWARE")*.md5" | sort -r | head -n 1)"
+    CSC_TAR="$(find "$ODIN_DIR/${MODEL}_${CSC}" -name "CSC_*.md5" | sort -r | head -n 1)"
 
     if [ ! "$BL_TAR" ]; then
         LOG "\033[0;31m! No BL tar found\033[0m"
