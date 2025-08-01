@@ -80,7 +80,7 @@ APPLY_PATCH()
     DECODE_APK "$PARTITION" "$FILE" || return 1
 
     LOG "- Applying \"$(grep "^Subject:" "$PATCH" | sed "s/.*PATCH] //")\" to /$PARTITION/$FILE"
-    EVAL "LC_ALL=C git apply --directory=\"$APKTOOL_DIR/$PARTITION/${FILE//system\//}\" --verbose --unsafe-paths \"$PATCH\"" || return 1
+    EVAL "cd \"$APKTOOL_DIR/$PARTITION/${FILE//system\//}\"; patch -p1 -s -t -N --no-backup-if-mismatch < \"$PATCH\"; cd - &> /dev/null"
 }
 
 # DECODE_APK <partition> <apk/jar>
