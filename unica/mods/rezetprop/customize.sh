@@ -1,4 +1,4 @@
-echo "Applying prop spoofer"
+LOG "- Applying prop spoofer"
 
 {
     echo "on property:service.bootanim.exit=1"

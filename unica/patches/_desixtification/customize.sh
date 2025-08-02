@@ -1,6 +1,7 @@
 if [[ $TARGET_SINGLE_SYSTEM_IMAGE == "qssi" || $TARGET_SINGLE_SYSTEM_IMAGE == "essi" ]]; then
-    echo "Target device with 32-Bit HALs detected! Patching..."
+    LOG_STEP_IN "- Target device with 32-Bit HALs detected."
 
+    LOG_STEP_IN "- Adding S23 FE (r11sxxx) lib/ blobs"
     ADD_TO_WORK_DIR "r11sxxx" "system" "system/lib" 0 0 644
 
     BLOBS_LIST="
@@ -14,8 +15,9 @@ if [[ $TARGET_SINGLE_SYSTEM_IMAGE == "qssi" || $TARGET_SINGLE_SYSTEM_IMAGE == "e
     do
         ADD_TO_WORK_DIR "r11sxxx" "system" "$blob"
     done
+    LOG_STEP_OUT
 
-    # Creating symlinks
+    LOG_STEP_IN "- Creating symlinks"
     ln -sf "/apex/com.android.runtime/bin/linker" "$WORK_DIR/system/system/bin/linker"
     ln -sf "/apex/com.android.runtime/bin/linker" "$WORK_DIR/system/system/bin/linker_asan"
     SET_METADATA "system" "system/bin/linker" 0 0 755 "u:object_r:system_file:s0"
@@ -29,15 +31,17 @@ if [[ $TARGET_SINGLE_SYSTEM_IMAGE == "qssi" || $TARGET_SINGLE_SYSTEM_IMAGE == "e
     SET_METADATA "system" "system/lib/libdl.so" 0 0 644 "u:object_r:system_lib_file:s0"
     SET_METADATA "system" "system/lib/libdl_android.so" 0 0 644 "u:object_r:system_lib_file:s0"
     SET_METADATA "system" "system/lib/libm.so" 0 0 644 "u:object_r:system_lib_file:s0"
+    LOG_STEP_OUT
 
-    # Set props
-    echo "Setting props..."
+    LOG_STEP_IN "- Setting props"
     SET_PROP "vendor" "ro.vendor.product.cpu.abilist" "arm64-v8a"
     SET_PROP "vendor" "ro.vendor.product.cpu.abilist32" ""
     SET_PROP "vendor" "ro.vendor.product.cpu.abilist64" "arm64-v8a"
     SET_PROP "vendor" "ro.zygote" "zygote64"
     SET_PROP "vendor" "dalvik.vm.dex2oat64.enabled" "true"
+    LOG_STEP_OUT
 
+    LOG_STEP_OUT
 else
-    echo "Target device does not use 32-Bit HALs. Ignoring"
+    LOG "- Target device does not use 32-Bit HALs. Ignoring."
 fi

@@ -1,6 +1,6 @@
 if [ "$SOURCE_NFC_CHIP_VENDOR" != "$TARGET_NFC_CHIP_VENDOR" ]; then
     if [ "$TARGET_NFC_CHIP_VENDOR" = "SLSI" ]; then
-        echo "Replacing NFC blobs with SLSI"
+        LOG "Replacing NFC blobs with SLSI"
 
         DELETE_FROM_WORK_DIR "system" "system/lib64/libnfc_nxpsn_jni.so"
         DELETE_FROM_WORK_DIR "system" "system/priv-app/NfcNci/lib/arm64/libnfc_nxpsn_jni.so"
@@ -22,9 +22,9 @@ if [ "$SOURCE_NFC_CHIP_VENDOR" != "$TARGET_NFC_CHIP_VENDOR" ]; then
         ln -sf "/system/lib64/libnfc_sec_jni.so" "$WORK_DIR/system/system/priv-app/NfcNci/lib/arm64/libnfc_sec_jni.so"
         SET_METADATA "system" "system/priv-app/NfcNci/lib/arm64/libnfc_sec_jni.so" 0 0 644 "u:object_r:system_file:s0"
     else
-        echo "NXP NFC found. Ignoring."
+        LOG "NXP NFC found. Ignoring."
     fi
 else
-    echo "NFC chip vendor unchanged. No action taken."
+    LOG "- NFC chip vendor unchanged. No action taken."
 fi
 

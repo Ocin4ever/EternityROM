@@ -37,8 +37,8 @@ if [[ "$SOURCE_VNDK_VERSION" != "$TARGET_VNDK_VERSION" ]]; then
             sed -i "s/version>$SOURCE_VNDK_VERSION/version>$TARGET_VNDK_VERSION/g" "$SYS_EXT_DIR/etc/vintf/manifest.xml"
         fi
     else
-        echo "VNDK v$TARGET_VNDK_VERSION apex is already in place. Ignoring"
+        LOG "- VNDK v$TARGET_VNDK_VERSION apex is already in place. Ignoring."
     fi
 else
-    echo "SOURCE_VNDK_VERSION and TARGET_VNDK_VERSION are the same. Ignoring"
+    LOG "- SOURCE_VNDK_VERSION and TARGET_VNDK_VERSION are the same. Ignoring."
 fi

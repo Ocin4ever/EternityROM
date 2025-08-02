@@ -1,8 +1,7 @@
 PATCHED=false
 
 if [ ! -f "$WORK_DIR/kernel/boot.img" ]; then
-    echo "File not found: $WORK_DIR/kernel/boot.img"
-    exit 1
+    LOGE "File not found: \"$WORK_DIR\"/kernel/boot.img"
 fi
 
 [ -d "$TMP_DIR" ] && rm -rf "$TMP_DIR"
@@ -12,8 +11,7 @@ cp -a --preserve=all "$WORK_DIR/kernel/boot.img" "$TMP_DIR/boot.img"
 MKBOOTIMG_ARGS="$(unpack_bootimg --boot_img "$TMP_DIR/boot.img" --out "$TMP_DIR/out" --format mkbootimg)"
 
 if [ ! -f "$TMP_DIR/out/kernel" ]; then
-    echo -e "Failed to extract boot.img:\n$MKBOOTIMG_ARGS"
-    exit 1
+    LOGE "Failed to extract boot.img"
 fi
 
 if [[ "$(file -b "$TMP_DIR/out/kernel")" == "Linux kernel ARM64"* ]]; then
@@ -34,7 +32,7 @@ if [[ "$(file -b "$TMP_DIR/out/kernel")" == "Linux kernel ARM64"* ]]; then
         mv -f "$TMP_DIR/new-boot.img" "$WORK_DIR/kernel/boot.img"
     fi
 else
-    echo -e "Ignoring kernel image ($(file -b "$TMP_DIR/out/kernel"))"
+    LOG "- Ignoring kernel image ($(file -b "\"$TMP_DIR\"/out/kernel"))"
 fi
 
 rm -rf "$TMP_DIR"

@@ -22,12 +22,12 @@ SET_CSC_FEATURE_CONFIG()
     return 0
 }
 
-echo "Patching CSC model"
+LOG "- Patching CSC model"
 SOURCE_MODEL=$(echo -n "$SOURCE_FIRMWARE" | cut -d "/" -f 1)
 TARGET_MODEL=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
 find "$WORK_DIR/optics" -type f -exec sed -i "s/SAOMC_SM-S938B/SAOMC_${TARGET_MODEL}/g" {} +
 
-echo "Patching CSC Features"
+LOG_STEP_IN "- Patching CSC Features"
 while read -r FILE; do
     # Decode XML
     ! grep -q 'CscFeature' "$FILE" && $TOOLS_DIR/bin/cscdecoder --decode --in-place "$FILE"
@@ -49,8 +49,9 @@ while read -r FILE; do
     # Encode XML
     $TOOLS_DIR/bin/cscdecoder --encode --in-place "$FILE"
 done <<< "$(find "$WORK_DIR/optics" -type f -name "cscfeature.xml")"
+LOG_STEP_OUT
 
-echo "Patching APKs for network speed monitoring..."
+LOG_STEP_IN "- Patching APKs for network speed monitoring"
 
 DECODE_APK "system" "system/priv-app/SecSettings/SecSettings.apk"
 DECODE_APK "system_ext" "priv-app/SystemUI/SystemUI.apk"
@@ -65,3 +66,4 @@ system_ext/priv-app/SystemUI/SystemUI.apk/smali/com/android/systemui/QpRune.smal
 for f in $FTP; do
     sed -i "s/CscFeature_Common_SupportZProjectFunctionInGlobal/CscFeature_Setting_SupportRealTimeNetworkSpeed/g" "$APKTOOL_DIR/$f"
 done
+LOG_STEP_OUT

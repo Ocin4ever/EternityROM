@@ -14,8 +14,7 @@ READ_AND_APPLY_CONFIGS()
                     SET_FLOATING_FEATURE_CONFIG "$(echo -n "$i" | cut -d "=" -f 1)" "$(echo -n "$i" | cut -d "=" -f 2-)"
                 fi
             else
-                echo "Malformed string in target/$TARGET_CODENAME/sff.sh: \"$i\""
-                return 1
+                LOGE "Malformed string in target/\"$TARGET_CODENAME\"/sff.sh: \"$i\""
             fi
         done < "$CONFIG_FILE"
     fi
