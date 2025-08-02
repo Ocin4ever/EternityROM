@@ -30,6 +30,11 @@ INPUT_FILE=""
 OUTPUT_PATH=""
 ARGS=""
 
+THREAD_COUNT=$(awk -v max="$(nproc)" '/MemTotal/ {
+  tc = int(($2 + 1048575) / 2097152);
+  print (tc < 1 ? 1 : (tc > max ? max : tc));
+}' /proc/meminfo)
+
 BUILD()
 {
     if [ ! -d "$OUTPUT_PATH" ]; then
@@ -61,7 +66,7 @@ BUILD()
                 DEX_FILENAME="$(basename "${d//smali_/}").dex"
             fi
 
-            EVAL "smali a -a \"$DEX_API_LEVEL\" -j \"$(nproc)\" -o \"$OUTPUT_PATH/$DEX_FILENAME\" \"$d\"" &
+            EVAL "smali a -a \"$DEX_API_LEVEL\" -j \"$THREAD_COUNT\" -o \"$OUTPUT_PATH/$DEX_FILENAME\" \"$d\"" &
         done < <(find "$OUTPUT_PATH" -maxdepth 1 -type d -name "smali*")
 
         # shellcheck disable=SC2046
@@ -73,7 +78,7 @@ BUILD()
     cp -a "$OUTPUT_PATH/original/META-INF" "$OUTPUT_PATH/build/apk/META-INF"
 
     # Build APK with --shorten-resource-paths (https://developer.android.com/tools/aapt2#optimize_options)
-    EVAL "apktool b -j \"$(nproc)\" -p \"$FRAMEWORK_DIR\" \"$OUTPUT_PATH\"" || exit 1
+    EVAL "apktool b -j \"$THREAD_COUNT\" -p \"$FRAMEWORK_DIR\" \"$OUTPUT_PATH\"" || exit 1
 
     find "$OUTPUT_PATH" -maxdepth 1 -type f -name "*.dex" -delete
 
@@ -126,7 +131,7 @@ DECODE()
     # - Disabled debug info
     # - Use .locals directive instead of the .registers one
     # - Use a sequential numbering scheme for labels
-    EVAL "apktool d -b -j \"$(nproc)\" -o \"$OUTPUT_PATH\" -p \"$FRAMEWORK_DIR\" -t \"$FRAMEWORK_TAG\" -s $ARGS \"$INPUT_FILE\"" || exit 1
+    EVAL "apktool d -b -j \"$THREAD_COUNT\" -o \"$OUTPUT_PATH\" -p \"$FRAMEWORK_DIR\" -t \"$FRAMEWORK_TAG\" -s $ARGS \"$INPUT_FILE\"" || exit 1
 
     # DEX format version might not be matching minSdkVersion, currently we handle
     # baksmali manually as apktool will by default use minSdkVersion when available
@@ -151,7 +156,7 @@ DECODE()
             # - Disabled debug info
             # - Use .locals directive instead of the .registers one
             # - Use a sequential numbering scheme for labels
-            EVAL "baksmali d -a \"$DEX_API_LEVEL\" --ac false --di false -j \"$(nproc)\" -l -o \"$OUTPUT_PATH/$SMALI_OUT\" --sl \"$f\"" &
+            EVAL "baksmali d -a \"$DEX_API_LEVEL\" --ac false --di false -j \"$THREAD_COUNT\" -l -o \"$OUTPUT_PATH/$SMALI_OUT\" --sl \"$f\"" &
         done < <(find "$OUTPUT_PATH" -maxdepth 1 -type f -name "*.dex")
 
         # shellcheck disable=SC2046
