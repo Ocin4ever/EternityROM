@@ -101,18 +101,18 @@ EXTRACT_OS_PARTITIONS()
         done
 
         rm -f "$FW_DIR/${MODEL}_${CSC}/super.img"
-    else
-        for f in $FILES; do
-            if FILE_EXISTS_IN_TAR "$CSC_TAR" "$f".lz4; then
-                EXTRACT_FILE_FROM_TAR "$CSC_TAR" "$f" || exit 1
-            else
-                EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
-            fi
-            [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] || continue
-            UNSPARSE_IMAGE "$FW_DIR/${MODEL}_${CSC}/$f" || exit 1
-            STORE_OS_PARTITION_METADATA "$FW_DIR/${MODEL}_${CSC}/$f"
-        done
     fi
+    for f in $FILES; do
+        [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] && continue
+        if FILE_EXISTS_IN_TAR "$AP_TAR" "$f".lz4; then
+            EXTRACT_FILE_FROM_TAR "$AP_TAR" "$f" || exit 1
+        elif FILE_EXISTS_IN_TAR "$CSC_TAR" "$f".lz4; then
+            EXTRACT_FILE_FROM_TAR "$CSC_TAR" "$f" || exit 1
+        fi
+        [ -f "$FW_DIR/${MODEL}_${CSC}/$f" ] || continue
+        UNSPARSE_IMAGE "$FW_DIR/${MODEL}_${CSC}/$f" || exit 1
+        STORE_OS_PARTITION_METADATA "$FW_DIR/${MODEL}_${CSC}/$f"
+    done
 
     local PARTITION
     for f in $FILES; do
