@@ -1,7 +1,7 @@
 echo "Disabling encryption"
 # Replace encryption with fscompress
-LINE=$(sed -n "/^\/dev\/block\/by-name\/userdata/=" "$WORK_DIR/vendor/etc/fstab.exynos9820")
-sed -i "${LINE}s/fileencryption=ice/fscompress/g" "$WORK_DIR/vendor/etc/fstab.exynos9820"
+LINE=$(sed -n "/^\/dev\/block\/by-name\/userdata/=" "$WORK_DIR/vendor/etc/fstab.exynos9825")
+sed -i "${LINE}s/fileencryption=ice/fscompress/g" "$WORK_DIR/vendor/etc/fstab.exynos9825"
 
 # # ODE
 # sed -i -e "/ODE/d" -e "/keydata/d" -e "/keyrefuge/d" "$WORK_DIR/vendor/etc/fstab.exynos9825"
