@@ -1,5 +1,32 @@
 # EternityROM changelog
 
+## 5.4
+- Updated to July SPL (S721BXXS6BYF5)
+- Upstreamed KernelSU-Next to v1.0.9
+- Reverted EGL to r32p1:
+  - Fixed back portrait
+  - Resolveed green flickering when switching lens
+  - No performance downside
+  - Thanks [ExtremeXT](https://github.com/ExtremeXT)
+- Fixed 4 digits pin auto unlock
+- Enabled compression for /data
+- Improveed EAD patches:
+  - Camera indicator no longer lights up randomly
+- Downgraded SamsungCamera to OneUI 6.1.1:
+  - Fixed 0.5x zoom
+  - No regressions compared to OneUI 7.0
+  - Thanks [PeterKnecht93](https://github.com/PeterKnecht93)
+  - Thanks [ExtremeXT](https://github.com/ExtremeXT)
+  - Thanks [Anan Jaser](https://github.com/ananjaser1211)
+  - Thanks [duhansysl](https://github.com/duhansysl)
+- Tweaks:
+  - Fixed applock on non-sm_cn devices
+  - Improved NFC cases support
+  - Enabled FS Verity
+  - Disabled OPP profile
+  - Slightly revised debloat list
+  - Thanks [ExtremeXT](https://github.com/ExtremeXT)
+
 ## 5.3
 - Rebased on SM-S721B (S24 FE):
   - Smoother, faster and lighter
