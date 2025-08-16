@@ -114,8 +114,8 @@ export SOURCE_FIRMWARE="$FIRMWARE"
 export TARGET_FIRMWARE="$FIRMWARE"
 export SOURCE_EXTRA_FIRMWARES=""
 export TARGET_EXTRA_FIRMWARES=""
-"$SRC_DIR/scripts/download_fw.sh"
-"$SRC_DIR/scripts/extract_fw.sh"
+"$SRC_DIR/scripts/download_fw.sh" --force --ignore-target
+"$SRC_DIR/scripts/extract_fw.sh" --force --ignore-target
 
 for i in $BLOBS; do
     if [[ "$i" == *[0-9] ]]; then
