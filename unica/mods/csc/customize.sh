@@ -31,7 +31,7 @@ LOG_STEP_IN "- Patching CSC Features"
 while read -r FILE; do
     (
         LOG "- Decoding $FILE"
-        ! grep -q 'CscFeature' "$FILE" && $TOOLS_DIR/bin/cscdecoder --decode --in-place "$FILE"
+        ! grep -q 'CscFeature' "$FILE" && EVAL "$TOOLS_DIR/bin/cscdecoder --decode --in-place \"$FILE\""
 
         LOG_STEP_IN "- Applying CSC Tweaks"
         if $SOURCE_IS_ESIM_SUPPORTED && ! $TARGET_IS_ESIM_SUPPORTED; then
@@ -48,7 +48,7 @@ while read -r FILE; do
         LOG_STEP_OUT
 
         LOG "- Encoding $FILE"
-        $TOOLS_DIR/bin/cscdecoder --encode --in-place "$FILE"
+        EVAL "$TOOLS_DIR/bin/cscdecoder --encode --in-place \"$FILE\""
     ) &
 done <<< "$(find "$WORK_DIR/optics" -type f -name "cscfeature.xml")"
 
