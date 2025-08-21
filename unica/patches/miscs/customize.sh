@@ -2,12 +2,13 @@ MODEL=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
 REGION=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 2)
 
 # Set build ID
-# Nobody is allowed to remove this part and distribute it
-ROM_STATUS=" (UNOFFICIAL)"
-$ROM_IS_OFFICIAL && ROM_STATUS=""
+# You are not allowed to remove this part and distribute it
+ROM_STATUS=""
+$ROM_IS_OFFICIAL || ROM_STATUS=" UNOFFICIAL"
 VALUE="$(GET_PROP "$WORK_DIR/system/system/build.prop" "ro.build.display.id")"
-SET_PROP "system" "ro.build.display.id" "EternityROM $ROM_VERSION$ROM_STATUS $ROM_COMMIT ($VALUE)"
+SET_PROP "system" "ro.build.display.id" "EternityROM $ROM_VERSION $ROM_COMMIT ($VALUE)"
 
+SET_PROP "system" "ro.eternityrom.official" "$ROM_IS_OFFICIAL"
 SET_PROP "system" "ro.eternityrom.version" "$ROM_VERSION"
 
 # Disable FRP
