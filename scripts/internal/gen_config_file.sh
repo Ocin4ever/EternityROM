@@ -39,7 +39,7 @@ GET_BUILD_VAR()
 IS_ETERNITYROM_CERT_AVAILABLE()
 {
     local USES_ETERNITYROM_CERT="false"
-    [ -f "$SRC_DIR/security/eternityrom_platform.pk8" ] && USES_ETERNITYROM_CERT="true"
+    [ -s "$SRC_DIR/security/eternityrom_platform.pk8" ] && USES_ETERNITYROM_CERT="true"
     echo "$USES_ETERNITYROM_CERT"
 }
 # ]
