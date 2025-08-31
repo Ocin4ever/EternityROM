@@ -1,5 +1,20 @@
 # EternityROM changelog
 
+## 5.5
+- Updated to August SPL (S721BXXS7BYH1)
+- Resolved Bluetooth regression issues
+- Upstreamed build system:
+  - Thanks [majaahh](https://github.com/majaahh)
+  - Thanks [salvogiangri](https://github.com/salvogiangri)
+- Add Signature patch:
+  - More secure
+  - Allow to edit /res for apks
+  - Thanks [salvogiangri](https://github.com/salvogiangri)
+- OneUI 7 icon for SamsungCamera
+- Fixed 16MP UW:
+  - Since OneUI 5.0 our UW was running in 12mp mode
+  - Thanks [Mesazane](https://github.com/Mesazane)
+
 ## 5.4
 - Updated to July SPL (S721BXXS6BYF5)
 - Upstreamed KernelSU-Next to v1.0.9
