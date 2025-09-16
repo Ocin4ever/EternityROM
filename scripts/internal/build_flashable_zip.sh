@@ -535,9 +535,9 @@ GENERATE_UPDATER_SCRIPT()
 
         echo -e "\n"
         echo    'ui_print("Cleaning up...");'
-        echo    'package_extract_file("cleanup.sh", "/tmp/cleanup.sh");'
-        echo    'set_metadata("/tmp/cleanup.sh", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);'
-        echo    'run_program("/tmp/cleanup.sh");'
+        echo    'package_extract_file("cleanup.sh", "/scripts/cleanup.sh");'
+        echo    'set_metadata("/scripts/cleanup.sh", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);'
+        echo    'run_program("/scripts/cleanup.sh");'
 
         echo -e "\n"
         echo    'set_progress(1);'
@@ -705,28 +705,8 @@ LOG "- Generating OTA metadata"
 GENERATE_OTA_METADATA
 
 LOG "- Creating zip"
-EVAL "rm -f \"$OUT_DIR/rom.zip\"" || exit 1
-pushd "$TMP_DIR" > /dev/null
-
-# 1. Compressed files (everything except zips, special dat files, META-INF)
-find . -type f ! -name "*.new.dat.br" ! -name "*.patch.dat" > compressed.txt
-
-# 2. Stored files (special dat files + META-INF folder)
-find . -type f \( -name "*.new.dat.br" -o -name "*.patch.dat" -o -name "META-INF" \) > stored.txt
-META_INF="./META-INF"
-
-# Add batches
-EVAL "7z a -tzip -mx=6 -mmt=$(nproc --all) \"$TMP_DIR/rom.zip\" @\"compressed.txt\""
-EVAL "7z a -tzip -mx=0 -mmt=$(nproc --all) \"$TMP_DIR/rom.zip\" @\"stored.txt\" \"$META_INF\""
-
-if ! $DEBUG; then
-    LOG "- Signing zip"
-    EVAL "signapk -w \"$PUBLIC_KEY_PATH\" \"$PRIVATE_KEY_PATH\" \"$TMP_DIR/rom.zip\" \"$OUT_DIR/$FILE_NAME\"" || exit 1
-    rm -f "$TMP_DIR/rom.zip"
-else
-    mv -f "$TMP_DIR/rom.zip" "$OUT_DIR/$FILE_NAME"
-fi
-
-popd > /dev/null
+[ -f "$OUT_DIR/rom.zip" ] && rm -f "$OUT_DIR/rom.zip"
+cd "$TMP_DIR" ; zip -rq ../rom.zip ./* ; cd - &> /dev/null
+mv -f "$TMP_DIR/rom.zip" "$OUT_DIR/$FILE_NAME"
 
 exit 0
