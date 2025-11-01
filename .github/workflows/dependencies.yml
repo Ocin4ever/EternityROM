@@ -31,7 +31,7 @@ jobs:
         run: . ./buildenv.sh d2s
 
       - name: Archive tools directory
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: tools
           path: out/tools
