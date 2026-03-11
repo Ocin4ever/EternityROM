@@ -1,0 +1,13 @@
+out/
+
+# MacOS files
+*.DS_Store
+
+# WSL files
+*.Identifier
+#
+# We don't want to ignore the following even if they are dot-files
+#
+!.gitattributes
+!.gitignore
+!.gitmodules
