@@ -265,7 +265,7 @@ if [[ "$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_LCD_CONFIG_HFR_D
     LOG_STEP_OUT
 fi
 
-if [[ "$TARGET_DISPLAY_CUTOUT_TYPE" == "right" ]]; then
+if [[ "$TARGET_LCD_CONFIG_CUTOUT_TYPE" == "right" ]]; then
     LOG_STEP_IN "- Applying right cutout patch"
     APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/cutout/SystemUI.apk/0001-Add-right-cutout-support.patch"
     LOG_STEP_OUT
