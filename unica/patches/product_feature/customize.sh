@@ -283,7 +283,7 @@ if [[ "$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" != "$TARGET_DVFSAPP_CONFIG_D
     system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk/smali/x1/e.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/\"$TARGET_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME/$TARGET_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
