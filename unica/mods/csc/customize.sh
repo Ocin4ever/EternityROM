@@ -34,7 +34,7 @@ while read -r FILE; do
         ! grep -q 'CscFeature' "$FILE" && EVAL "$TOOLS_DIR/bin/cscdecoder --decode --in-place \"$FILE\""
 
         LOG_STEP_IN "- Applying CSC Tweaks"
-        if $SOURCE_COMMON_SUPPORT_EMBEDDED_SIM && ! $TARGET_IS_ESIM_SUPPORTED; then
+        if $SOURCE_COMMON_SUPPORT_EMBEDDED_SIM && ! $TARGET_COMMON_SUPPORT_EMBEDDED_SIM; then
             SET_CSC_FEATURE_CONFIG "CscFeature_RIL_SupportEsim" "FALSE"
             SET_CSC_FEATURE_CONFIG "CscFeature_SetupWizard_SupportEsimAsPrimary" --delete
         fi

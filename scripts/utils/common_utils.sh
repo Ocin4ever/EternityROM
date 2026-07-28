@@ -123,7 +123,7 @@ _GET_SELINUX_LABEL()
             FC_FILE="$WORK_DIR/vendor/etc/selinux/vendor_file_contexts"
             ;;
         "system_ext")
-            if $TARGET_HAS_SYSTEM_EXT; then
+            if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
                 FC_FILE="$WORK_DIR/system_ext/etc/selinux/system_ext_file_contexts"
             else
                 FC_FILE="$WORK_DIR/system/system/system_ext/etc/selinux/system_ext_file_contexts"
@@ -226,7 +226,7 @@ ADD_TO_WORK_DIR()
             SOURCE_FILE+="/system/system_ext/$FILE"
         fi
 
-        if $TARGET_HAS_SYSTEM_EXT; then
+        if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
             TARGET_FILE+="/system_ext/$FILE"
         else
             PARTITION="system"
@@ -312,7 +312,7 @@ ADD_TO_WORK_DIR()
         FILES="$(find "${SOURCE_FILE%/.}")"
         FILES="${FILES//$SOURCE\//}"
         [[ "$PARTITION" == "system" ]] && FILES="${FILES//system\/system\//system/}"
-        $TARGET_HAS_SYSTEM_EXT || FILES="${FILES//system_ext\//system/system_ext/}"
+        $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION || FILES="${FILES//system_ext\//system/system_ext/}"
 
         while IFS= read -r f; do
             IS_VALID_PARTITION_NAME "$f" && continue
@@ -408,7 +408,7 @@ DELETE_FROM_WORK_DIR()
         FILE="${FILE:1}"
     done
 
-    if ! $TARGET_HAS_SYSTEM_EXT && [[ "$PARTITION" == "system_ext" ]]; then
+    if ! $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION && [[ "$PARTITION" == "system_ext" ]]; then
         PARTITION="system"
         FILE="system/system_ext/$FILE"
     fi
@@ -416,7 +416,7 @@ DELETE_FROM_WORK_DIR()
     local FILE_PATH="$WORK_DIR"
     case "$PARTITION" in
         "system_ext")
-            if $TARGET_HAS_SYSTEM_EXT; then
+            if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
                 FILE_PATH+="/system_ext"
             else
                 FILE_PATH+="/system/system/system_ext"

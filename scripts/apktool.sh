@@ -263,7 +263,7 @@ PREPARE_SCRIPT()
     local FILE_PATH="$WORK_DIR"
     case "$PARTITION" in
         "system_ext")
-            if $TARGET_HAS_SYSTEM_EXT; then
+            if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
                 FILE_PATH+="/system_ext"
             else
                 FILE_PATH+="/system/system/system_ext"

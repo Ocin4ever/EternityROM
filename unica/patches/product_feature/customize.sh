@@ -16,7 +16,7 @@ GET_FP_SENSOR_TYPE()
 MODEL=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
 REGION=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 2)
 
-if [[ "$SOURCE_PRODUCT_SHIPPING_API_LEVEL" != "$TARGET_PRODUCT_FIRST_API_LEVEL" ]]; then
+if [[ "$SOURCE_PRODUCT_SHIPPING_API_LEVEL" != "$TARGET_PRODUCT_SHIPPING_API_LEVEL" ]]; then
     LOG_STEP_IN "- Applying MAINLINE_API_LEVEL patches"
 
     DECODE_APK "system" "system/framework/services.jar"
@@ -31,14 +31,14 @@ if [[ "$SOURCE_PRODUCT_SHIPPING_API_LEVEL" != "$TARGET_PRODUCT_FIRST_API_LEVEL" 
     "
     for f in $FTP; do
         sed -i \
-            "s/\"MAINLINE_API_LEVEL: $SOURCE_PRODUCT_SHIPPING_API_LEVEL\"/\"MAINLINE_API_LEVEL: $TARGET_PRODUCT_FIRST_API_LEVEL\"/g" \
+            "s/\"MAINLINE_API_LEVEL: $SOURCE_PRODUCT_SHIPPING_API_LEVEL\"/\"MAINLINE_API_LEVEL: $TARGET_PRODUCT_SHIPPING_API_LEVEL\"/g" \
             "$APKTOOL_DIR/$f"
-        sed -i "s/\"$SOURCE_PRODUCT_SHIPPING_API_LEVEL\"/\"$TARGET_PRODUCT_FIRST_API_LEVEL\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_PRODUCT_SHIPPING_API_LEVEL\"/\"$TARGET_PRODUCT_SHIPPING_API_LEVEL\"/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
 
-if [[ "$SOURCE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" != "$TARGET_AUTO_BRIGHTNESS_TYPE" && "$TARGET_AUTO_BRIGHTNESS_TYPE" != "4" ]]; then
+if [[ "$SOURCE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" != "$TARGET_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" && "$TARGET_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" != "4" ]]; then
     LOG_STEP_IN "- Applying auto brightness type patches"
 
     DECODE_APK "system" "system/framework/services.jar"
@@ -51,17 +51,17 @@ if [[ "$SOURCE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" != "$TARGET_AUTO_BRIGHTNESS_T
     system/priv-app/SecSettings/SecSettings.apk/smali_classes4/com/samsung/android/settings/Rune.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS\"/\"$TARGET_AUTO_BRIGHTNESS_TYPE\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS\"/\"$TARGET_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS\"/g" "$APKTOOL_DIR/$f"
     done
 
     # WORKAROUND: Skip failure on CALIBRATEDLUX
-    if [[ "$TARGET_AUTO_BRIGHTNESS_TYPE" == "3" ]]; then
+    if [[ "$TARGET_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" == "3" ]]; then
         HEX_PATCH "$WORK_DIR/system/system/lib64/libsensorservice.so" "284B009420008052" "284B009400008052"
     fi
     LOG_STEP_OUT
 fi
 
-if [[ "$SOURCE_FINGERPRINT_CONFIG_SENSOR" != "$TARGET_FP_SENSOR_CONFIG" ]]; then
+if [[ "$SOURCE_FINGERPRINT_CONFIG_SENSOR" != "$TARGET_FINGERPRINT_CONFIG_SENSOR" ]]; then
     LOG_STEP_IN "- Applying fingerprint sensor patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
@@ -80,10 +80,10 @@ if [[ "$SOURCE_FINGERPRINT_CONFIG_SENSOR" != "$TARGET_FP_SENSOR_CONFIG" ]]; then
     system/priv-app/SecSettings/SecSettings.apk/smali_classes4/com/samsung/android/settings/biometrics/fingerprint/FingerprintLockSettings.smali
     "
     for f in $FTP; do
-        sed -i "s/$SOURCE_FINGERPRINT_CONFIG_SENSOR/$TARGET_FP_SENSOR_CONFIG/g" "$APKTOOL_DIR/$f"
+        sed -i "s/$SOURCE_FINGERPRINT_CONFIG_SENSOR/$TARGET_FINGERPRINT_CONFIG_SENSOR/g" "$APKTOOL_DIR/$f"
     done
 
-    if [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "ultrasonic" ]]; then
+    if [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FINGERPRINT_CONFIG_SENSOR")" == "ultrasonic" ]]; then
         ADD_TO_WORK_DIR "e1sxxx" "system" "system/bin/surfaceflinger"
         ADD_TO_WORK_DIR "e1sxxx" "system" "system/lib64/libgui.so"
         ADD_TO_WORK_DIR "e1sxxx" "system" "system/lib64/libui.so"
@@ -92,9 +92,9 @@ if [[ "$SOURCE_FINGERPRINT_CONFIG_SENSOR" != "$TARGET_FP_SENSOR_CONFIG" ]]; then
         APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SystemUI.apk/0001-Set-SECURITY_FINGERPRINT_IN_DISPLAY_OPTICAL-to-false.patch"
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_BIOAUTH_CONFIG_FINGERPRINT_FEATURES" "ultrasonic_display_phone"
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_LCD_CONFIG_LOCAL_HBM" "0"
-    elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "optical" ]]; then
+    elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FINGERPRINT_CONFIG_SENSOR")" == "optical" ]]; then
         APPLY_PATCH "system" "system/priv-app/BiometricSetting/BiometricSetting.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/BiometricSetting.apk/0002-Always-use-ultrasonic-FOD-animation.patch"
-    elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "side" ]]; then
+    elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FINGERPRINT_CONFIG_SENSOR")" == "side" ]]; then
         ADD_TO_WORK_DIR "b6qxxx" "system" "."
         DELETE_FROM_WORK_DIR "system" "system/priv-app/BiometricSetting/oat"
         APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Set-FP_FEATURE_SENSOR_IS_OPTICAL-to-false.patch"
@@ -106,7 +106,7 @@ if [[ "$SOURCE_FINGERPRINT_CONFIG_SENSOR" != "$TARGET_FP_SENSOR_CONFIG" ]]; then
 fi
 
 if ! $SOURCE_COMMON_SUPPORT_DYN_RESOLUTION_CONTROL; then
-    if $TARGET_HAS_QHD_DISPLAY; then
+    if $TARGET_COMMON_SUPPORT_DYN_RESOLUTION_CONTROL; then
         LOG_STEP_IN "- Applying multi resolution patches"
 
         DECODE_APK "system" "system/framework/framework.jar"
@@ -128,7 +128,7 @@ if ! $SOURCE_COMMON_SUPPORT_DYN_RESOLUTION_CONTROL; then
 fi
 
 if ! $SOURCE_LCD_SUPPORT_MDNIE_HW; then
-    if $TARGET_HAS_HW_MDNIE; then
+    if $TARGET_LCD_SUPPORT_MDNIE_HW; then
         LOG_STEP_IN "- Applying HW mDNIe patches"
 
         DECODE_APK "system" "system/framework/framework.jar"
@@ -164,25 +164,25 @@ if ! $SOURCE_MDNIE_SUPPORT_HDR_EFFECT; then
     fi
 fi
 
-if [[ "$SOURCE_COMMON_CONFIG_MDNIE_MODE" != "$TARGET_MDNIE_SUPPORTED_MODES" ]]; then
+if [[ "$SOURCE_COMMON_CONFIG_MDNIE_MODE" != "$TARGET_COMMON_CONFIG_MDNIE_MODE" ]]; then
     LOG_STEP_IN "- Applying mDNIe features patches"
 
     DECODE_APK "system" "system/framework/services.jar"
 
-    SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_CONFIG_MDNIE_MODE" "$TARGET_MDNIE_SUPPORTED_MODES"
+    SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_CONFIG_MDNIE_MODE" "$TARGET_COMMON_CONFIG_MDNIE_MODE"
 
     FTP="
     system/framework/services.jar/smali_classes2/com/samsung/android/hardware/display/SemMdnieManagerService.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_COMMON_CONFIG_MDNIE_MODE\"/\"$TARGET_MDNIE_SUPPORTED_MODES\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_COMMON_CONFIG_MDNIE_MODE\"/\"$TARGET_COMMON_CONFIG_MDNIE_MODE\"/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
 
 DECODE_APK "system" "system/framework/framework.jar"
 
-if [[ "$TARGET_HFR_SEAMLESS_BRT" == "none" && "$TARGET_HFR_SEAMLESS_LUX" == "none" ]]; then
+if [[ "$TARGET_LCD_CONFIG_SEAMLESS_BRT" == "none" && "$TARGET_LCD_CONFIG_SEAMLESS_LUX" == "none" ]]; then
     APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/hfr/framework.jar/0001-Remove-brightness-threshold-values.patch"
 else
 
@@ -190,12 +190,12 @@ else
     system/framework/framework.jar/smali_classes6/com/samsung/android/hardware/display/RefreshRateConfig.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_LCD_CONFIG_SEAMLESS_BRT\"/\"$TARGET_HFR_SEAMLESS_BRT\"/g" "$APKTOOL_DIR/$f"
-        sed -i "s/\"$SOURCE_LCD_CONFIG_SEAMLESS_LUX\"/\"$TARGET_HFR_SEAMLESS_LUX\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_LCD_CONFIG_SEAMLESS_BRT\"/\"$TARGET_LCD_CONFIG_SEAMLESS_BRT\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_LCD_CONFIG_SEAMLESS_LUX\"/\"$TARGET_LCD_CONFIG_SEAMLESS_LUX\"/g" "$APKTOOL_DIR/$f"
     done
 fi
 
-if [[ "$SOURCE_LCD_CONFIG_HFR_MODE" != "$TARGET_HFR_MODE" ]]; then
+if [[ "$SOURCE_LCD_CONFIG_HFR_MODE" != "$TARGET_LCD_CONFIG_HFR_MODE" ]]; then
     LOG_STEP_IN "- Applying HFR_MODE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
@@ -216,19 +216,19 @@ if [[ "$SOURCE_LCD_CONFIG_HFR_MODE" != "$TARGET_HFR_MODE" ]]; then
     system_ext/priv-app/SystemUI/SystemUI.apk/smali/com/android/systemui/LsRune.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_MODE\"/\"$TARGET_HFR_MODE\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_MODE\"/\"$TARGET_LCD_CONFIG_HFR_MODE\"/g" "$APKTOOL_DIR/$f"
     done
 
-    if [[ "$TARGET_HFR_MODE" -eq 0 ]]; then
+    if [[ "$TARGET_LCD_CONFIG_HFR_MODE" -eq 0 ]]; then
         REPL=1
     else
-        REPL=$TARGET_HFR_MODE
+        REPL=$TARGET_LCD_CONFIG_HFR_MODE
     fi
     sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_MODE\"/\"$REPL\"/g" "$APKTOOL_DIR/system/framework/framework.jar/smali_classes6/com/samsung/android/rune/CoreRune.smali"
     LOG_STEP_OUT
 fi
 
-if [[ "$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE" != "$TARGET_HFR_SUPPORTED_REFRESH_RATE" ]]; then
+if [[ "$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE" != "$TARGET_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE" ]]; then
     LOG_STEP_IN "- Applying HFR_SUPPORTED_REFRESH_RATE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
@@ -239,15 +239,15 @@ if [[ "$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE" != "$TARGET_HFR_SUPPORTED_
     system/priv-app/SecSettings/SecSettings.apk/smali_classes4/com/samsung/android/settings/display/SecDisplayUtils.smali
     "
     for f in $FTP; do
-        if [[ "$TARGET_HFR_SUPPORTED_REFRESH_RATE" != "none" ]]; then
-            sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE\"/\"$TARGET_HFR_SUPPORTED_REFRESH_RATE\"/g" "$APKTOOL_DIR/$f"
+        if [[ "$TARGET_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE" != "none" ]]; then
+            sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE\"/\"$TARGET_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE\"/g" "$APKTOOL_DIR/$f"
         else
             sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE\"/\"\"/g" "$APKTOOL_DIR/$f"
         fi
     done
     LOG_STEP_OUT
 fi
-if [[ "$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_HFR_DEFAULT_REFRESH_RATE" ]]; then
+if [[ "$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE" ]]; then
     LOG_STEP_IN "- Applying HFR_DEFAULT_REFRESH_RATE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
@@ -260,7 +260,7 @@ if [[ "$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_HFR_DEFAULT_REFR
     system/priv-app/SettingsProvider/SettingsProvider.apk/smali/com/android/providers/settings/DatabaseHelper.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE\"/\"$TARGET_HFR_DEFAULT_REFRESH_RATE\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE\"/\"$TARGET_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE\"/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
@@ -271,7 +271,7 @@ if [[ "$TARGET_DISPLAY_CUTOUT_TYPE" == "right" ]]; then
     LOG_STEP_OUT
 fi
 
-if [[ "$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" != "$TARGET_DVFS_CONFIG_NAME" ]]; then
+if [[ "$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" != "$TARGET_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" ]]; then
     LOG_STEP_IN "- Applying DVFS patches"
 
     DECODE_APK "system" "system/framework/ssrm.jar"
@@ -280,13 +280,13 @@ if [[ "$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" != "$TARGET_DVFS_CONFIG_NAME
     system/framework/ssrm.jar/smali/com/android/server/ssrm/Feature.smali
     "
     for f in $FTP; do
-        sed -i "s/\"$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/\"$TARGET_DVFS_CONFIG_NAME\"/g" "$APKTOOL_DIR/$f"
+        sed -i "s/\"$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/\"$TARGET_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
 
 if $SOURCE_COMMON_SUPPORT_EMBEDDED_SIM; then
-    if ! $TARGET_IS_ESIM_SUPPORTED; then
+    if ! $TARGET_COMMON_SUPPORT_EMBEDDED_SIM; then
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_CONFIG_EMBEDDED_SIM_SLOTSWITCH" --delete
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_SUPPORT_EMBEDDED_SIM" --delete
     fi
@@ -368,7 +368,7 @@ if ! $SOURCE_AUDIO_SUPPORT_ACH_RINGTONE; then
 fi
 
 if $SOURCE_AUDIO_SUPPORT_VIRTUAL_VIBRATION_SOUND; then
-    if ! $TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
+    if ! $TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION_SOUND; then
         LOG_STEP_IN "Applying virtual vibration patches"
         APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/audio/SecSettings.apk/0002-Disable-Virtual-Vibration-support.patch"
         LOG_STEP_OUT

@@ -1,5 +1,5 @@
-if [ "$SOURCE_SECURITY_CONFIG_ESE_CHIP_VENDOR" != "$TARGET_NFC_CHIP_VENDOR" ]; then
-    if [ "$TARGET_NFC_CHIP_VENDOR" = "SLSI" ]; then
+if [ "$SOURCE_SECURITY_CONFIG_ESE_CHIP_VENDOR" != "$TARGET_SECURITY_CONFIG_ESE_CHIP_VENDOR" ]; then
+    if [ "$TARGET_SECURITY_CONFIG_ESE_CHIP_VENDOR" = "SLSI" ]; then
         LOG "Replacing NFC blobs with SLSI"
 
         DELETE_FROM_WORK_DIR "system" "system/lib64/libnfc_nxpsn_jni.so"

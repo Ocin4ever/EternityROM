@@ -33,8 +33,8 @@ PRINT_MODULE_INFO()
         exit 1
     fi
 
-    if [ -d "$MODPATH/$TARGET_SINGLE_SYSTEM_IMAGE" ]; then
-        MODPATH="$MODPATH/$TARGET_SINGLE_SYSTEM_IMAGE"
+    if [ -d "$MODPATH/$TARGET_OS_SINGLE_SYSTEM_IMAGE" ]; then
+        MODPATH="$MODPATH/$TARGET_OS_SINGLE_SYSTEM_IMAGE"
     fi
 
     if [ ! -f "$MODPATH/module.prop" ]; then

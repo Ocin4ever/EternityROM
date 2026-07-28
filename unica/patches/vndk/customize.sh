@@ -1,5 +1,5 @@
-if [[ "$SOURCE_BOARD_API_LEVEL" != "$TARGET_VNDK_VERSION" ]]; then
-    if $TARGET_HAS_SYSTEM_EXT; then
+if [[ "$SOURCE_BOARD_API_LEVEL" != "$TARGET_BOARD_API_LEVEL" ]]; then
+    if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
         SYS_EXT_DIR="$WORK_DIR/system_ext"
     else
         SYS_EXT_DIR="$WORK_DIR/system/system/system_ext"
@@ -8,12 +8,12 @@ if [[ "$SOURCE_BOARD_API_LEVEL" != "$TARGET_VNDK_VERSION" ]]; then
     NO_APEX=false
     [[ $SOURCE_BOARD_API_LEVEL == "none" ]] && NO_APEX=true
 
-    if [ ! -f "$SYS_EXT_DIR/apex/com.android.vndk.v$TARGET_VNDK_VERSION.apex" ]; then
+    if [ ! -f "$SYS_EXT_DIR/apex/com.android.vndk.v$TARGET_BOARD_API_LEVEL.apex" ]; then
         if ! $NO_APEX; then
             DELETE_FROM_WORK_DIR "system_ext" "apex/com.android.vndk.v$SOURCE_BOARD_API_LEVEL.apex"
         fi
 
-        case "$TARGET_VNDK_VERSION" in
+        case "$TARGET_BOARD_API_LEVEL" in
             "30")
                 ADD_TO_WORK_DIR "a73xqxx" "system_ext" "apex/com.android.vndk.v30.apex" 0 0 644 "u:object_r:system_file:s0"
                 ;;
@@ -30,15 +30,15 @@ if [[ "$SOURCE_BOARD_API_LEVEL" != "$TARGET_VNDK_VERSION" ]]; then
         if $NO_APEX; then
             sed -i '$d' "$SYS_EXT_DIR/etc/vintf/manifest.xml"
             echo "    <vendor-ndk>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
-            echo "        <version>$TARGET_VNDK_VERSION</version>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
+            echo "        <version>$TARGET_BOARD_API_LEVEL</version>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
             echo "    </vendor-ndk>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
             echo "</manifest>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
         else
-            sed -i "s/version>$SOURCE_BOARD_API_LEVEL/version>$TARGET_VNDK_VERSION/g" "$SYS_EXT_DIR/etc/vintf/manifest.xml"
+            sed -i "s/version>$SOURCE_BOARD_API_LEVEL/version>$TARGET_BOARD_API_LEVEL/g" "$SYS_EXT_DIR/etc/vintf/manifest.xml"
         fi
     else
-        LOG "- VNDK v$TARGET_VNDK_VERSION apex is already in place. Ignoring."
+        LOG "- VNDK v$TARGET_BOARD_API_LEVEL apex is already in place. Ignoring."
     fi
 else
-    LOG "- SOURCE_BOARD_API_LEVEL and TARGET_VNDK_VERSION are the same. Ignoring."
+    LOG "- SOURCE_BOARD_API_LEVEL and TARGET_BOARD_API_LEVEL are the same. Ignoring."
 fi

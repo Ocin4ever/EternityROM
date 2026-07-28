@@ -39,7 +39,7 @@ COPY_SOURCE_FIRMWARE()
     done
 
     if [ -d "$FW_DIR/$SOURCE_FIRMWARE_PATH/system_ext" ]; then
-        if $TARGET_HAS_SYSTEM_EXT; then
+        if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
             LOG_STEP_IN "- Copying /system_ext from source firmware"
 
             [ -L "$WORK_DIR/system/system_ext" ] && rm -f "$WORK_DIR/system/system_ext"
@@ -76,7 +76,7 @@ COPY_SOURCE_FIRMWARE()
             LOG_STEP_OUT
         fi
     elif [ -d "$FW_DIR/$SOURCE_FIRMWARE_PATH/system/system/system_ext" ]; then
-        if $TARGET_HAS_SYSTEM_EXT; then
+        if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
             LOG_STEP_IN "- Copying /system_ext from source firmware"
 
             [ -L "$WORK_DIR/system/system_ext" ] && rm -f "$WORK_DIR/system/system_ext"

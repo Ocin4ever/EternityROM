@@ -41,7 +41,7 @@ uwb_regulation_skip_prop
 # [
 GET_SYSTEM_EXT()
 {
-    if $TARGET_HAS_SYSTEM_EXT; then
+    if $TARGET_OS_BUILD_SYSTEM_EXT_PARTITION; then
         echo "system_ext"
     else
         echo "system/system/system_ext"

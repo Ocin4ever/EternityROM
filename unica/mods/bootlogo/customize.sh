@@ -1,6 +1,6 @@
-if [[ $TARGET_SINGLE_SYSTEM_IMAGE == "essi" || $TARGET_SINGLE_SYSTEM_IMAGE == "essi_64" ]]; then
+if [[ $TARGET_OS_SINGLE_SYSTEM_IMAGE == "essi" || $TARGET_OS_SINGLE_SYSTEM_IMAGE == "essi_64" ]]; then
     LOG_STEP_IN "- Exynos device detected. Adding custom up_param."
-    if $TARGET_HAS_QHD_DISPLAY; then
+    if $TARGET_COMMON_SUPPORT_DYN_RESOLUTION_CONTROL; then
         cp -a "$SRC_DIR/unica/mods/bootlogo/up_param_1440p.bin" "$WORK_DIR/up_param.bin"
     else
         cp -a "$SRC_DIR/unica/mods/bootlogo/up_param_1080p.bin" "$WORK_DIR/up_param.bin"
