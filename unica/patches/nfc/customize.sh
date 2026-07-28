@@ -1,4 +1,4 @@
-if [ "$SOURCE_NFC_CHIP_VENDOR" != "$TARGET_NFC_CHIP_VENDOR" ]; then
+if [ "$SOURCE_SECURITY_CONFIG_ESE_CHIP_VENDOR" != "$TARGET_NFC_CHIP_VENDOR" ]; then
     if [ "$TARGET_NFC_CHIP_VENDOR" = "SLSI" ]; then
         LOG "Replacing NFC blobs with SLSI"
 

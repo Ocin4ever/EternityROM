@@ -134,7 +134,7 @@ configs
 "
 
 # eSIM
-if $SOURCE_IS_ESIM_SUPPORTED; then
+if $SOURCE_COMMON_SUPPORT_EMBEDDED_SIM; then
     if ! $TARGET_IS_ESIM_SUPPORTED; then
         SYSTEM_DEBLOAT+="
         system/etc/permissions/privapp-permissions-com.samsung.android.app.esimkeystring.xml

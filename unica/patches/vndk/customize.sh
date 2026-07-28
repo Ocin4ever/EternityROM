@@ -1,4 +1,4 @@
-if [[ "$SOURCE_VNDK_VERSION" != "$TARGET_VNDK_VERSION" ]]; then
+if [[ "$SOURCE_BOARD_API_LEVEL" != "$TARGET_VNDK_VERSION" ]]; then
     if $TARGET_HAS_SYSTEM_EXT; then
         SYS_EXT_DIR="$WORK_DIR/system_ext"
     else
@@ -6,11 +6,11 @@ if [[ "$SOURCE_VNDK_VERSION" != "$TARGET_VNDK_VERSION" ]]; then
     fi
 
     NO_APEX=false
-    [[ $SOURCE_VNDK_VERSION == "none" ]] && NO_APEX=true
+    [[ $SOURCE_BOARD_API_LEVEL == "none" ]] && NO_APEX=true
 
     if [ ! -f "$SYS_EXT_DIR/apex/com.android.vndk.v$TARGET_VNDK_VERSION.apex" ]; then
         if ! $NO_APEX; then
-            DELETE_FROM_WORK_DIR "system_ext" "apex/com.android.vndk.v$SOURCE_VNDK_VERSION.apex"
+            DELETE_FROM_WORK_DIR "system_ext" "apex/com.android.vndk.v$SOURCE_BOARD_API_LEVEL.apex"
         fi
 
         case "$TARGET_VNDK_VERSION" in
@@ -34,11 +34,11 @@ if [[ "$SOURCE_VNDK_VERSION" != "$TARGET_VNDK_VERSION" ]]; then
             echo "    </vendor-ndk>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
             echo "</manifest>" >> "$SYS_EXT_DIR/etc/vintf/manifest.xml"
         else
-            sed -i "s/version>$SOURCE_VNDK_VERSION/version>$TARGET_VNDK_VERSION/g" "$SYS_EXT_DIR/etc/vintf/manifest.xml"
+            sed -i "s/version>$SOURCE_BOARD_API_LEVEL/version>$TARGET_VNDK_VERSION/g" "$SYS_EXT_DIR/etc/vintf/manifest.xml"
         fi
     else
         LOG "- VNDK v$TARGET_VNDK_VERSION apex is already in place. Ignoring."
     fi
 else
-    LOG "- SOURCE_VNDK_VERSION and TARGET_VNDK_VERSION are the same. Ignoring."
+    LOG "- SOURCE_BOARD_API_LEVEL and TARGET_VNDK_VERSION are the same. Ignoring."
 fi
