@@ -275,12 +275,31 @@ if [[ "$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME" != "$TARGET_DVFSAPP_CONFIG_D
     LOG_STEP_IN "- Applying DVFS patches"
 
     DECODE_APK "system" "system/framework/ssrm.jar"
+    DECODE_APK "system" "system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk"
 
     FTP="
     system/framework/ssrm.jar/smali/com/android/server/ssrm/Feature.smali
+    system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk/smali/p1/c.smali
+    system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk/smali/x1/e.smali
     "
     for f in $FTP; do
         sed -i "s/\"$SOURCE_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/\"$TARGET_DVFSAPP_CONFIG_DVFS_POLICY_FILENAME\"/g" "$APKTOOL_DIR/$f"
+    done
+    LOG_STEP_OUT
+fi
+
+if [[ "$SOURCE_DVFSAPP_CONFIG_SSRM_POLICY_FILENAME" != "$TARGET_DVFSAPP_CONFIG_SSRM_POLICY_FILENAME" ]]; then
+    LOG_STEP_IN "- Applying SIOP patches"
+
+    DECODE_APK "system" "system/framework/ssrm.jar"
+    DECODE_APK "system" "system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk"
+
+    FTP="
+    system/framework/ssrm.jar/smali/com/android/server/ssrm/Feature.smali
+    system/priv-app/SamsungDeviceHealthManagerService/SamsungDeviceHealthManagerService.apk/smali/S1/v.smali
+    "
+    for f in $FTP; do
+        sed -i "s/\"$SOURCE_DVFSAPP_CONFIG_SSRM_POLICY_FILENAME\"/\"$SOURCE_DVFSAPP_CONFIG_SSRM_POLICY_FILENAME\"/g" "$APKTOOL_DIR/$f"
     done
     LOG_STEP_OUT
 fi
