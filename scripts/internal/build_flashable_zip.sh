@@ -707,6 +707,6 @@ GENERATE_OTA_METADATA
 LOG "- Creating zip"
 [ -f "$OUT_DIR/rom.zip" ] && rm -f "$OUT_DIR/rom.zip"
 cd "$TMP_DIR" ; zip -rq ../rom.zip ./* ; cd - &> /dev/null
-mv -f "$TMP_DIR/rom.zip" "$OUT_DIR/$FILE_NAME"
+mv -f "$OUT_DIR/rom.zip" "$OUT_DIR/$FILE_NAME"
 
 exit 0
