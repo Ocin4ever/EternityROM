@@ -1,0 +1,25 @@
+From 752ff5d831648b95f1a5f1dd8f3e245850ba688d Mon Sep 17 00:00:00 2001
+From: BlackMesa123 <giangrecosalvo9@gmail.com>
+Date: Wed, 29 Jul 2026 16:13:36 +0200
+Subject: [PATCH] Disable StrongBox in DeviceIDProvisionManager
+
+---
+ .../DeviceIDProvisionManager$DeviceIDProvisionWorker.smali      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/framework.jar/smali_classes6/com/samsung/android/service/DeviceIDProvisionService/DeviceIDProvisionManager$DeviceIDProvisionWorker.smali b/framework.jar/smali_classes6/com/samsung/android/service/DeviceIDProvisionService/DeviceIDProvisionManager$DeviceIDProvisionWorker.smali
+index cafa053d1e..1872732b2d 100644
+--- a/framework.jar/smali_classes6/com/samsung/android/service/DeviceIDProvisionService/DeviceIDProvisionManager$DeviceIDProvisionWorker.smali
++++ b/framework.jar/smali_classes6/com/samsung/android/service/DeviceIDProvisionService/DeviceIDProvisionManager$DeviceIDProvisionWorker.smali
+@@ -56,7 +56,7 @@
+ .method public static blacklist isSupportStrongboxDeviceID()Z
+     .locals 1
+ 
+-    const/4 v0, 0x1
++    const/4 v0, 0x0
+ 
+     return v0
+ .end method
+-- 
+2.53.0
+
